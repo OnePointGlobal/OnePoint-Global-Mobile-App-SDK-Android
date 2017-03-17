@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="gender_array">
+        <item>Select Gender</item>
+        <item>Male</item><!--1 for Male-->
+        <item>Female</item><!--2 for female-->
+
+    </array>
+
+    <array name="title_array">
+        <item>Select Title</item>
+        <item>Mr</item>
+        <item>Ms</item>
+        <item>Mrs</item>
+    </array>
+</resources>

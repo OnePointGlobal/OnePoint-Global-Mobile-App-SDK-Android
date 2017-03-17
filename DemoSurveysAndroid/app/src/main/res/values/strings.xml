@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">DemoSurveys\nAndroid</string>
+    <string name="welcome_title">Welcome! Get started and share your feedback.</string>
+    <string name="signin_title">Login to get started or if you dont have your sign in credentials yet,</string>
+    <string name="authenicate">Authenicate Api</string>
+    <string name="forgotpassword">Forgot Password</string>
+    <string name="changepassword">Change Password</string>
+    <string name="getPanelistProfile">Get PanelistProfile</string>
+    <string name="uptPanelistProfile">Update PanelistProfile</string>
+    <string name="email">Email Id</string>
+    <string name="authorisation_username_hint">Authorisation Username</string>
+    <string name="authorisation_sharedkey_hint">Authorisation Sharedkey</string>
+    <string name="login_username_hint">Login Username</string>
+    <string name="login_password_hint">Login Password</string>
+    <string name="appversion_hint">Appversion</string>
+    <string name="current_pwd">Current Password</string>
+    <string name="new_pwd">New Password</string>
+    <string name="uniqueid">Unique ID</string>
+    <string name="title">Title</string>
+    <string name="firstName">FirstName</string>
+    <string name="lastName">LastName</string>
+    <string name="mobileno">Mobile No</string>
+    <string name="address1">Address1</string>
+    <string name="address2">Address2</string>
+    <string name="dateofbirth">DOB</string>
+    <string name="gender">Gender</string>
+    <string name="postalcode">Postal Code</string>
+    <string name="login">Login</string>
+    <string name="submit">Submit</string>
+    <string name="update">Update</string>
+    <string name="survey_id_hint">Enter Survey Reference...</string>
+    <string name="panelId_id_hint">Enter PanelID...</string>
+    <string name="logout_button">Logout</string>
+
+    <string name="gender_error">Please select gender</string>
+    <string name="title_error">Please select title</string>
+
+    <string name="admin_username">Admin UserName</string>
+    <string name="admin_shared_key">Admin Shared Key</string>
+    <string name="app_login_userName">Panelist UserName</string>
+    <string name="app_login_password">Panelist Password</string>
+    <string name="app_ersion">App Version</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="unique_id_hint">UniqueId</string>
+    <string name="api_list">API List</string>
+    <string name="panelid_cb_title">Use This</string>
+</resources>

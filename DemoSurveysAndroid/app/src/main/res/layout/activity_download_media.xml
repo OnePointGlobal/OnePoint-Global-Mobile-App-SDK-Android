@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.onepointglobal.mysurveysn.DownloadMediaActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/path_tv"
+        android:layout_below="@+id/download_btn"
+        android:maxLines="100"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mediatype"
+        android:text="Download"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:background="@drawable/rounded_button"/>
+
+   <!-- <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/uniqueid_et"
+        android:hint="uniqueid"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mediaid"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/uniqueid_et"
+        android:layout_centerHorizontal="true"
+        android:hint="media id"
+        android:background="@android:drawable/editbox_background_normal"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mediatype"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/mediaid"
+        android:layout_centerHorizontal="true"
+        android:hint="media type"
+        android:background="@android:drawable/editbox_background_normal"/>
+
+</RelativeLayout>

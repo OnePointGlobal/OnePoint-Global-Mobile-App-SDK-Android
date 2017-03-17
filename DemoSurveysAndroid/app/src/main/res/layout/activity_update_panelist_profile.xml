@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_spn"
+            android:maxLines="1"
+            android:entries="@array/title_array"
+            android:background="@android:drawable/editbox_background_normal"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/firstName_et"
+            android:hint="@string/firstName"
+            android:maxLines="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lastName_et"
+            android:hint="@string/lastName"
+            android:maxLines="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_et"
+            android:hint="@string/email"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mobile_et"
+            android:hint="@string/mobileno"
+            android:maxLines="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"
+            android:inputType="phone"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address1_et"
+            android:hint="@string/address1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address2_et"
+            android:hint="@string/address2"
+            android:maxLines="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dob_tv"
+            android:hint="@string/dateofbirth"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gender_spn"
+            android:maxLines="1"
+            android:entries="@array/gender_array"
+            android:background="@android:drawable/editbox_background_normal"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/postal_et"
+            android:hint="@string/postalcode"
+            android:maxLines="1"
+            android:background="@android:drawable/editbox_background_normal"
+            android:padding="10dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit_btn"
+            android:layout_gravity="center"
+            android:text="@string/update"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_button"
+            android:onClick="onUpdateClick"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/output_tv"/>
+
+    </LinearLayout>
+
+</ScrollView>
+
+

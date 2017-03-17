@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_row_selector"
+    android:orientation="vertical"
+>
+
+
+
+    <!-- Movie Title -->
+    <TextView
+        android:id="@+id/theme_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:textSize="@dimen/title"
+        android:text="@string/app_name"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
+
+    <!-- Rating -->
+    <TextView
+        android:id="@+id/theme_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:textColor="#504949"
+        android:textSize="@dimen/rating"
+        android:text="description" />
+
+    <!-- Genre -->
+    <TextView
+        android:id="@+id/themeid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_marginTop="5dp"
+
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/genre"
+        android:text="12345"/>
+
+    <!-- Release Year -->
+    <TextView
+        android:id="@+id/theme_lastupdated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textColor="@color/light_grey"
+        android:textSize="@dimen/year"
+        android:text="year"/>
+    <TextView
+    android:id="@+id/theme_panel_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:textColor="@color/light_grey"
+    android:textSize="@dimen/year"
+    android:text="987"/>
+
+</LinearLayout>
