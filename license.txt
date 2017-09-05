@@ -9,6 +9,6 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,OUT OF OR IN CONNECTIO
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
   
   
- http: resources.onepointglobal.com/sdk-license/home
- http: resources.onepointglobal.com/sdk-license/3rd-party-software
+ http:resources.onepointglobal.com/sdk-license/home
+ http:resources.onepointglobal.com/sdk-license/3rd-party-software
 
