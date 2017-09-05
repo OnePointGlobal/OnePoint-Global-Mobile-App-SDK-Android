@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,7 +19,7 @@ import com.opg.sdk.models.OPGAuthenticate;
  */
 public class AuthenticateActivity extends AppCompatActivity
 {
-    private EditText appLogInUserNameEdt, appLogInPwdEdt;
+    private EditText appLogInUserNameEdt, appLogInPwdEdt, etAdminUserName, etAdminSharedKey;
     private AlertDialog.Builder alertDialog;
 
     private TextView output_tv;
@@ -33,8 +33,14 @@ public class AuthenticateActivity extends AppCompatActivity
         setContentView(R.layout.auth_layout);
         mContext    = this;
 
+        etAdminUserName = (EditText)findViewById(R.id.etAdminUserName);
+        etAdminSharedKey = (EditText)findViewById(R.id.etAdminSharedKey);
+        etAdminUserName.setSingleLine(true);
+        etAdminSharedKey.setSingleLine(true);
         appLogInUserNameEdt = (EditText) findViewById(R.id.app_username);
         appLogInPwdEdt = (EditText) findViewById(R.id.app_password);
+        appLogInUserNameEdt.setSingleLine(true);
+        appLogInPwdEdt.setSingleLine(true);
 
         output_tv = (TextView) findViewById(R.id.output_tv);
         alertDialog = new AlertDialog.Builder(this);
@@ -66,23 +72,7 @@ public class AuthenticateActivity extends AppCompatActivity
     }
     private class AuthenticateTask extends AsyncTask<Void, Void, OPGAuthenticate>
     {
-
-        /**
-         * The Username.
-         */
-        String username, /**
-     * The Shared key.
-     */
-    sharedKey, /**
-     * The App version.
-     */
-    appVersion/*,uniqueID*/, /**
-     * The App login pwd.
-     */
-    appLoginPwd, /**
-     * The App login user name.
-     */
-    appLoginUserName;
+        String adminUserName,adminSharedKey, appVersion, appLoginPwd,  appLoginUserName;
 
         /**
          * Instantiates a new Authenticate task.
@@ -92,6 +82,10 @@ public class AuthenticateActivity extends AppCompatActivity
                 appLoginUserName = appLogInUserNameEdt.getText().toString().trim();
             if(appLogInPwdEdt.getText() != null)
                 appLoginPwd = appLogInPwdEdt.getText().toString().trim();
+            if(etAdminUserName.getText() != null)
+                adminUserName = etAdminUserName.getText().toString().trim();
+            if(etAdminSharedKey.getText() != null)
+                adminSharedKey = etAdminSharedKey.getText().toString().trim();
         }
 
         @Override
@@ -107,12 +101,10 @@ public class AuthenticateActivity extends AppCompatActivity
             OPGAuthenticate opgAuthenticate = new OPGAuthenticate();
             try {
                 OPGSDK opgsdk = new OPGSDK();
+                //Initialising the OPGSDK with adminUsername and adminSharedKey
+                OPGSDK.initialize(adminUserName , adminSharedKey, getApplicationContext());
                 //authenticate the panelist
                 opgAuthenticate = opgsdk.authenticate(appLoginUserName, appLoginPwd,AuthenticateActivity.this);
-                // opgsdk.setUniqueID(uniqueID,getApplicationContext());
-                //opgAuthenticate.setSuccess(true);
-                //opgAuthenticate.setUniqueID(uniqueID);
-                //opgAuthenticate.setStatusMessage("Success");
             }
             catch (Exception ex) {
                 Log.i("DemoApp", ex.getMessage());

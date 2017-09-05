@@ -4,7 +4,6 @@ package com.onepointglobal.mysurveysn;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.opg.sdk.OPGActivity;
@@ -43,13 +42,14 @@ public class BrowseActivity extends OPGActivity implements OPGSurveyInterface {
         mProgressDialog.setCancelable(true);
         HashMap<String,String> queryParams = new HashMap<>();
 
-        queryParams.put("user1","Hi");
-        queryParams.put("user2","I");
-        queryParams.put("user3","am");
-        queryParams.put("user4","Prabeen");
-        queryParams.put("user5","1234");
+        queryParams.put("user1","*");
+        queryParams.put("user2","**");
+        queryParams.put("user3","***");
+        queryParams.put("user4","****");
+        queryParams.put("user5","*****");
         //Loading the questions for  particular survey and passing the  queryParams
-        super.loadSurvey(this,surveyReference,queryParams);
+        // super.loadOnlineSurvey(this,surveyReference,queryParams);
+        super.loadOnlineSurvey(this,surveyReference,Util.panelID,Util.panelistID);
     }
 
     /**
@@ -87,11 +87,11 @@ public class BrowseActivity extends OPGActivity implements OPGSurveyInterface {
             mProgressDialog.show();
     }
 
-@Override
-public void onBackPressed() {
-    super.onBackPressed();
-    finish();
-}
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
 }
 

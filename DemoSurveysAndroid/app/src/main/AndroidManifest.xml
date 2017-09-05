@@ -22,7 +22,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:configChanges="orientation|screenLayout|screenSize"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -41,27 +41,60 @@
         <activity android:name=".BrowseActivity" />
         <activity
             android:name=".SurveyListActivity"
+            android:label="Survey List"
             android:screenOrientation="portrait" />
-        <activity android:name=".AuthenticateActivity" />
-        <activity android:name=".GetThemeActivity" />
-        <activity android:name=".GetPanelActivity" />
-        <activity android:name=".GetSurveyPanelActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".GetPanelistProfileActivity" />
+        <activity android:name=".AuthenticateActivity"
+                  android:label="Authenticate"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetThemeActivity"
+                  android:label="Theme List"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetPanelActivity"
+                  android:label="Panel List"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetSurveyPanelActivity"
+                  android:label="Survey Panel List"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".ForgotPasswordActivity"
+                  android:label="Forgot Password"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".ChangePasswordActivity"
+                  android:label="Change Password"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetPanelistProfileActivity"
+                  android:label="Panellist Profile"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity
             android:name=".UpdatePanelistProfileActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:label="Update Panellist Profile"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".GetScriptActivity" />
-        <activity android:name=".DownloadMediaActivity" />
-        <activity android:name=".UploadMediaActivity" />
-        <activity android:name=".GetPanelistPanel" />
-        <activity android:name=".LogoutActivity" />
-        <activity android:name=".AuthenticateUniqueIDActivity" />
-        <activity android:name=".AuthenticateSDKAdminActivity" />
-        <activity android:name=".AuthenticateWithSocialMedia" />
-        <activity android:name=".GetCountries"></activity>
+        <activity android:name=".GetScriptActivity"
+                  android:label="Download Script"/>
+        <activity android:name=".DownloadMediaActivity"
+                  android:label="Download Media"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UploadMediaActivity"
+                  android:label="Upload Media"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetPanelistPanel"
+                  android:label="GetPanellistPanel"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".LogoutActivity"
+                  android:label="Logout Activity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".AuthenticateWithSocialMedia"
+                  android:label="AuthenticateWithSocialMedia" />
+        <activity android:name=".GetCountries"
+                  android:label="Country List"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".GetGeofenceSurvey"
+                  android:label="Geofence Survey List"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".NotificationActivity"
+                  android:label="NotificationActivity"
+            android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

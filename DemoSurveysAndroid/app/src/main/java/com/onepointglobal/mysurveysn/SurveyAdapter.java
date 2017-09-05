@@ -1,12 +1,6 @@
 package com.onepointglobal.mysurveysn;
 
-import java.util.ArrayList;
-
-
-
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +10,16 @@ import android.widget.TextView;
 
 import com.opg.sdk.models.OPGSurvey;
 
+import java.util.ArrayList;
+
 
 /**
  * The type Survey adapter.
  */
 public class SurveyAdapter extends ArrayAdapter<OPGSurvey>
 {
-   private  Context context;
-   private ArrayList<OPGSurvey> opgSurveys;
+    private  Context context;
+    private ArrayList<OPGSurvey> opgSurveys;
 
     /**
      * Instantiates a new Survey adapter.

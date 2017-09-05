@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,9 +28,9 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
-    private String ADMIN_USERNAME  = "XXXXX";////Replace the adminusername with your adminusername
-    private String ADMIN_SHAREDKEY = "XXXXX";////Replace the adminsharedkey with your adminsharedkey
-    private String APPVERSION      = "XXXXX";//Replace the appversion with your appversion
+    private String ADMIN_USERNAME  = "**";////Replace the adminusername with your adminusername
+    private String ADMIN_SHAREDKEY = "**";//Replace the adminsharedkey with your adminsharedkey
+    private String APPVERSION      = "*****";//Replace the appversion with your appversion
 
     private Context   mContext;
     private List<String> listPermissionsNeeded;
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.GET_ACCOUNTS
     };
-    private String[] apiArray = new String[]{"Authenticate","Authenticate - SocialMedia","1.GetUserSurveyList","2.Script","3.Download Media","4.Upload Media","5.PanelistPanel","6.GetThemes",
-            "7.GetPanels","8.GetSurveyPanels", "9.ForgotPassword",
-            "10.ChangePassword","11.PanelistProfile","12.UpdatePanelistProfile","13.GeoFencing","14.PushNotification","15.GetCountries","16.Logout"};
+    private String[] apiArray = new String[]{"Authenticate","Authenticate - SocialMedia","1.GetUserSurveyList","2.Script","3.Download Media",
+            "4.Upload Media","5.PanelistPanel", "6.GetThemes", "7.GetPanels","8.GetSurveyPanels", "9.ForgotPassword", "10.ChangePassword",
+            "11.PanellistProfile","12.UpdatePanelistProfile","13.GeoFencing","14.PushNotification","15.GetCountries","16.logout"};
 
 
     @Override
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         checkPermission(true);
 
         initializeOPGSDK();
-
         listView = (ListView) findViewById(R.id.api_list);
         listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, android.R.id.text1, apiArray));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,14 +112,16 @@ public class MainActivity extends AppCompatActivity {
                     case 13 :  intent = new Intent(MainActivity.this,UpdatePanelistProfileActivity.class);
                         startActivity(intent);
                         break;
-                    case 14 : Toast.makeText(MainActivity.this,"API Not Integrated.",Toast.LENGTH_SHORT).show();
+                    case 14 : intent = new Intent(MainActivity.this,GetGeofenceSurvey.class);
+                        startActivity(intent);
                         break;
-                    case 15 :  Toast.makeText(MainActivity.this,"API Not Integrated.",Toast.LENGTH_SHORT).show();
+                    case 15 :  intent = new Intent(MainActivity.this,NotificationActivity.class);
+                        startActivity(intent);
                         break;
                     case 16 :   intent = new Intent(MainActivity.this,GetCountries.class);
                         startActivity(intent);
-                           break;
-                    case 17 : intent = new Intent(MainActivity.this,LogoutActivity.class);
+                        break;
+                    case 17: intent = new Intent(MainActivity.this,LogoutActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -140,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             OPGSDK opgsdk = new OPGSDK();
             //Initialising the OPGSDK with adminUsername and adminSharedKey
             OPGSDK.initialize(ADMIN_USERNAME , ADMIN_SHAREDKEY, getApplicationContext());
-
             //set the app version
             opgsdk.setAppVersion(APPVERSION, MainActivity.this);
         }catch (Exception ex )

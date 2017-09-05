@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.onepointglobal.mysurveysn.NotificationActivity">
+    <TextView
+        android:id="@+id/tv_fcm_token"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FCM TokenId : " />
+
+    <Button
+    android:id="@+id/btn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Register"
+    android:layout_below="@+id/tv_fcm_token"
+    android:onClick="onRegistrClick"/>
+
+    <TextView
+        android:layout_below="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Response : "
+        android:id="@+id/register_response"/>
+    <Button
+        android:id="@+id/btn_un_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UnRegister"
+        android:layout_below="@+id/register_response"
+        android:onClick="onUnRegisterClick"/>
+
+    <TextView
+        android:layout_below="@+id/btn_un_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Response : "
+        android:id="@+id/un_register_response"/>
+</RelativeLayout>

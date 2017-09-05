@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DemoSurveys\nAndroid</string>
+    <string name="app_name">DemoSurveys Android</string>
     <string name="build_type">Build Type</string>
     <string name="welcome_title">Welcome! Get started and share your feedback.</string>
     <string name="signin_title">Login to get started or if you dont have your sign in credentials yet,</string>
@@ -38,11 +38,16 @@
 
     <string name="admin_username">Admin UserName</string>
     <string name="admin_shared_key">Admin Shared Key</string>
-    <string name="app_login_userName">Panelist UserName</string>
-    <string name="app_login_password">Panelist Password</string>
+    <string name="app_login_userName">Panellist UserName</string>
+    <string name="app_login_password">Panellist Password</string>
     <string name="app_ersion">App Version</string>
     <string name="authenticate">Authenticate</string>
     <string name="unique_id_hint">UniqueId</string>
     <string name="api_list">API List</string>
     <string name="panelid_cb_title">Use This</string>
+
+    <string name="title_activity_fullscreen">GeoFenceSurveys</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="location">Location - </string>
 </resources>

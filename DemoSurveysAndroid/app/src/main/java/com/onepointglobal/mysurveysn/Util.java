@@ -15,11 +15,11 @@ import com.opg.sdk.models.OPGPanellistPanel;
  */
 public class Util
 {
-private static OPGSDK opgsdk;
+    private static OPGSDK opgsdk;
+    public static long panelistID;
+    public static long panelID;
 
-
-
-private static OPGPanellistPanel opgPanellistPanel;
+    private static OPGPanellistPanel opgPanellistPanel;
 
     /**
      * Gets opg panellist panel.
@@ -27,8 +27,8 @@ private static OPGPanellistPanel opgPanellistPanel;
      * @return the opg panellist panel
      */
     public static OPGPanellistPanel getOpgPanellistPanel() {
-    return opgPanellistPanel;
-}
+        return opgPanellistPanel;
+    }
 
     /**
      * Sets opg panellist panel.
@@ -36,8 +36,8 @@ private static OPGPanellistPanel opgPanellistPanel;
      * @param opgPanellistPanel the opg panellist panel
      */
     public static void setOpgPanellistPanel(OPGPanellistPanel opgPanellistPanel) {
-    Util.opgPanellistPanel = opgPanellistPanel;
-}
+        Util.opgPanellistPanel = opgPanellistPanel;
+    }
 
     /**
      * Get opgsdk instance opgsdk.
@@ -45,11 +45,11 @@ private static OPGPanellistPanel opgPanellistPanel;
      * @return the opgsdk
      */
     public static OPGSDK getOPGSDKInstance(){
-    if(opgsdk == null){
-        opgsdk = new OPGSDK();
+        if(opgsdk == null){
+            opgsdk = new OPGSDK();
+        }
+        return opgsdk;
     }
-    return opgsdk;
-}
 
     /**
      * Is online boolean.
@@ -58,11 +58,11 @@ private static OPGPanellistPanel opgPanellistPanel;
      * @return the boolean
      */
     public static  boolean isOnline(Context context)
-{
-    ConnectivityManager cm =(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-    return netInfo != null && netInfo.isConnectedOrConnecting();
-}
+    {
+        ConnectivityManager cm =(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
     /**
      * Show alert.
@@ -70,26 +70,26 @@ private static OPGPanellistPanel opgPanellistPanel;
      * @param context the context
      */
     public static void showAlert(final Context context) {
-    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-    // Setting Dialog Title
-    alertDialog.setTitle("No Network...");
+        // Setting Dialog Title
+        alertDialog.setTitle("No Network...");
 
-    // Setting Dialog Message
-    alertDialog.setMessage("Please check the network connection...");
+        // Setting Dialog Message
+        alertDialog.setMessage("Please check the network connection...");
 
-    // Setting Icon to Dialog
-    alertDialog.setIcon(R.drawable.info);
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.info);
 
-    // Setting Positive "Yes" Button
-    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
 
-            dialog.cancel();
-            ((Activity)context).finish();
-        }
-    });
+                dialog.cancel();
+                ((Activity)context).finish();
+            }
+        });
 
-    alertDialog.show();
-}
+        alertDialog.show();
+    }
 }
