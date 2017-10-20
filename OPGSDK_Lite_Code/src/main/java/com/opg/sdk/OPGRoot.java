@@ -129,8 +129,6 @@ class OPGRoot
         String apiURL       = "https://api.1pt.mobi/V3.1/Api/";
         String interviewURL = "https://api.1pt.mobi/i/interview";
         String mediaURL     = "https://api.1pt.mobi/i/Media?";
-        String adminName = "******";
-        String adminSharedKey= "******";
 
         if (!validateString(username) || !validateString(sharedKey))
         {
@@ -151,8 +149,6 @@ class OPGRoot
         }
         OPGPreference.setUsername(username, context);
         OPGPreference.setSharedKey(sharedKey, context);
-        OPGPreference.setMySurevyAppAdminName(context,adminName);
-        OPGPreference.setMySurevyAppSharedKey(context,adminSharedKey);
         System.out.println(OPGSDKConstant.SUCCESS_INITIALIZE);
     }
 
