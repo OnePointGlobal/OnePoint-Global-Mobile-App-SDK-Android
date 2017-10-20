@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.opg.sdk">
+
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+<application
+    android:allowBackup="false"
+    android:label="@string/app_name"
+    android:largeHeap="true"
+    android:supportsRtl="true">
+    <activity
+        android:name="com.google.zxing.client.android.CaptureActivity"
+        android:clearTaskOnLaunch="true"
+        android:configChanges="orientation|keyboardHidden"
+        android:exported="false"
+        android:screenOrientation="landscape"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        android:windowSoftInputMode="stateAlwaysHidden">
+        <intent-filter>
+            <action android:name="com.google.zxing.client.android.SCAN"/>
+
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.google.zxing.client.android.encode.EncodeActivity"
+        android:label="@string/share_name">
+        <intent-filter>
+            <action android:name="com.phonegap.plugins.barcodescanner.ENCODE"/>
+
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+    </activity>
+
+    <activity
+        android:name="com.google.zxing.client.android.HelpActivity"
+        android:label="@string/share_name"
+        tools:ignore="GoogleAppIndexingWarning">
+        <intent-filter >
+            <action android:name="android.intent.action.VIEW"/>
+
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+    </activity>
+    <activity android:name=".OPGActivity"></activity>
+
+    <service
+        android:name=".geofence.OPGGeofenceTransitionsIntentService"
+        android:exported="false">
+    </service>
+
+    <receiver android:name=".geofence.OPGWakefulReceiver">
+    </receiver>
+
+    <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="${applicationId}"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+    </provider>
+</application>
+
+</manifest>

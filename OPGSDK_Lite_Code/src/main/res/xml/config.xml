@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0"
+    id="com.opg.sdk"
+    version="0.0.1"
+    xmlns:android="http://www.w3.org/ns/widgets" >
+
+    <preference
+        name="loglevel"
+        value="DEBUG" />
+    <preference
+        name="SplashScreen"
+        value="splash" />
+    <preference
+        name="SplashScreenDelay"
+        value="10000" />
+
+<!--     <preference name="loadUrlTimeoutValue" value="70000" />
+ -->    
+    
+    <feature name="Whitelist" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param
+            name="onload"
+            value="true" />
+    </feature>
+
+    <allow-intent href="market:*" />
+
+    <name>
+MySurveys
+    </name>
+
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+
+    <author
+        email="dev@cordova.apache.org"
+        href="http://cordova.io" >
+        Apache Cordova Team
+    </author>
+
+    <content src="index.html" />
+
+    <access origin="*" />
+
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="data:*" />
+
+    <feature name="Device" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="NetworkStatus" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Camera" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+
+    <preference
+        name="AndroidPersistentFileLocation"
+        value="Internal" />
+    <preference
+        name="AndroidExtraFilesystems"
+        value="files,files-external,documents,sdcard,cache,cache-external,root" />
+
+    <feature name="File" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.file.FileUtils" />
+        <param
+            name="onload"
+            value="true" />
+    </feature>
+    <feature name="Capture" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.mediacapture.Capture" />
+    </feature>
+    <feature name="Media" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="Notification" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Globalization" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="SplashScreen" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param
+            name="onload"
+            value="true" />
+    </feature>
+    <feature name="InAppBrowser" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="NetworkStatus" >
+        <param
+            name="android-package"
+            value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="DatePickerPlugin" >
+        <param
+            name="android-package"
+            value="com.plugin.datepicker.DatePickerPlugin" />
+    </feature>
+    <feature name="BarcodeScanner" >
+        <param
+            name="android-package"
+            value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
+    </feature>
+    <feature name="DGGeofencing" >
+        <param
+            name="android-package"
+            value="com.phonegap.geofencing.DGGeofencing" />
+    </feature>
+    <feature name="AuthenticationPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.AuthenticationPlugin" />
+    </feature>
+    <feature name="PanelsPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.PanelsPlugin" />
+    </feature>
+    <feature name="PanellistDataPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.PanellistDataPlugin" />
+    </feature>
+    <feature name="ChangePasswordPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.ChangePasswordPlugin" />
+    </feature>
+    <feature name="LocationService" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.LocationService" />
+    </feature>
+    <feature name="EnableGPSPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.EnableGPSPlugin" />
+    </feature>
+    <feature name="ForgotPasswordPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.ForgotPasswordPlugin" />
+    </feature>
+    <feature name="MediaPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.MediaPlugin" />
+    </feature>
+    <feature name="SurveysPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.SurveysPlugin" />
+    </feature>
+    <feature name="TakeSurveyPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.TakeSurveyPlugin" />
+    </feature>
+    <feature name="LocalStoragePlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.LocalStoragePlugin" />
+    </feature>
+    <feature name="LogoutPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.LogoutPlugin" />
+    </feature>
+    <feature name="PlayerPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.PlayerPlugin" />
+    </feature>
+    <feature name="CheckForUpdatesPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.CheckForUpdatesPlugin" />
+    </feature>
+    <feature name="UploadResultsPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.UploadResultsPlugin" />
+    </feature>
+    <feature name="PickMediaPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.PickMediaPlugin" />
+    </feature>
+    <feature name="KeyboardPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.KeyboardPlugin" />
+    </feature>
+    <feature name="MediaPickerAndPreviewPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.MediaPickerAndPreviewPlugin" />
+    </feature>
+    <feature name="ImagePreviewPlugin" >
+        <param
+            name="android-package"
+            value="com.opg.sdk.ImagePreviewPlugin" />
+    </feature>
+    <feature name="RuntimePlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.RuntimePlugin" />
+    </feature>
+    <feature>
+    </feature>
+    <feature name="GetDeviceOrientation" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.GetDeviceOrientation" />
+    </feature>
+    <feature name="GetDeviceCulturePlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.GetDeviceCulturePlugin" />
+    </feature>
+    <feature name="OpenURLinBrowserPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.OpenURLinBrowserPlugin" />
+    </feature>
+    <feature name="PushNotificationPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.PushNotificationPlugin" />
+    </feature>
+    <feature name="GeoFencingPlugin" >
+        <param
+            name="android-package"
+            value="OnePoint.CordovaPlugin.GeoFencingPlugin" />
+    </feature>
+
+</widget>
