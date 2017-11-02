@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import com.opg.sdk.models.OPGPanellistPanel;
 import com.opg.sdk.models.OPGSurvey;
 import com.opg.sdk.models.OPGSurveyPanel;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,6 +81,7 @@ public class BrowseActivity extends OPGActivity implements OPGSurveyInterface {
                 long surveyID = getSurveyID(surveyReference);
                 panelID  = getPanelID(surveyID);
                 panellistID = getPanellistID();
+                Log.i("SurveyInfo","surveyReference : "+surveyReference+ ", surveyID : "+surveyID+", panelID : "+panelID+", panellistID : "+panellistID);
                 return true;
             }
             return false;
@@ -120,11 +124,19 @@ public class BrowseActivity extends OPGActivity implements OPGSurveyInterface {
      * @return
      */
     private long getPanelID(long surveyID) {
-        OPGPanellistPanel opgPanellistPanel = Util.getOPGSDKInstance().getPanellistPanel(mContext);
-        List<OPGSurveyPanel> opgSurveyPanels = opgPanellistPanel.getSurveyPanelArray();
-        for (OPGSurveyPanel opgSurveyPanel:opgSurveyPanels){
-            if(opgSurveyPanel.getSurveyID() == surveyID){
-                return opgSurveyPanel.getPanelID();
+        OPGPanellistPanel opgPanellistPanel = Util.getOpgPanellistPanel();
+        if(opgPanellistPanel != null)
+        {
+            opgPanellistPanel = Util.getOPGSDKInstance().getPanellistPanel(mContext);
+            Util.setOpgPanellistPanel(opgPanellistPanel);
+        }
+        if(opgPanellistPanel != null)
+        {
+            List<OPGSurveyPanel> opgSurveyPanels = opgPanellistPanel.getSurveyPanelArray();
+            for (OPGSurveyPanel opgSurveyPanel:opgSurveyPanels){
+                if(opgSurveyPanel.getSurveyID() == surveyID){
+                    return opgSurveyPanel.getPanelID();
+                }
             }
         }
         return 0;
