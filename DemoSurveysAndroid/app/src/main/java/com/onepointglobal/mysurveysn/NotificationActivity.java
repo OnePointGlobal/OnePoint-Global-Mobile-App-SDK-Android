@@ -2,18 +2,21 @@ package com.onepointglobal.mysurveysn;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.opg.sdk.models.OPGAuthenticate;
+import com.opg.sdk.models.OPGScript;
 
 public class NotificationActivity extends AppCompatActivity {
-    private String action = null;
+   private String action = null;
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,40 @@ public class NotificationActivity extends AppCompatActivity {
         {
             myAsyncTask.execute();
         }
+        /*new AsyncTask<Void,Integer,String>()
+        {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected String doInBackground(Void... voids)
+            {
+                String response = null;
+                try
+                {
+                    String deviceToken =  FirebaseInstanceId.getInstance().getToken();
+                   response =  Util.getOPGSDKInstance().register(getApplicationContext(),deviceToken);
+
+                }catch (Exception e)
+                {
+                    response = e.getMessage();
+                    Log.i("REG",e.getMessage());
+                }
+
+                return response;
+            }
+
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                 TextView textView = (TextView) findViewById(R.id.register_response);
+
+                 textView.setText(textView.getText().toString()+response);
+            }
+        }.execute();*/
     }
 
 
@@ -65,6 +102,32 @@ public class NotificationActivity extends AppCompatActivity {
         {
             myAsyncTask.execute();
         }
+        /*new AsyncTask<Void,Void,String>()
+        {
+            @Override
+            protected String doInBackground(Void... voids)
+            {
+                String res = "...";
+                try
+                {
+                    String deviceToken =  FirebaseInstanceId.getInstance().getToken();
+                    res =  Util.getOPGSDKInstance().unRegister(getApplicationContext(),deviceToken);
+                }catch (Exception e)
+                {
+                    res = e.getMessage();
+                    Log.i("REG",e.getMessage());
+                }
+
+                return res;
+            }
+
+            @Override
+            protected void onPostExecute(String res) {
+                super.onPostExecute(res);
+                TextView textView = (TextView) findViewById(R.id.un_register_response);
+                 textView.setText("UnRegisterResponse : "+res);
+            }
+        }.execute();*/
     }
 
     private class MyAsyncTask extends AsyncTask<Void,Void,String>
