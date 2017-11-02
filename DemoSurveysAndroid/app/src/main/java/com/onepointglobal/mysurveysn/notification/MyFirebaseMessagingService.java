@@ -25,7 +25,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         builder.setContentTitle("OPGSDK Test");
         builder.setContentText(remoteMessage.getNotification().getBody());
         builder.setAutoCancel(true);
-
+    /*Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    builder.setSound(alarmSound);*/
         builder.setDefaults(Notification.DEFAULT_SOUND);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentIntent(pendingIntent);

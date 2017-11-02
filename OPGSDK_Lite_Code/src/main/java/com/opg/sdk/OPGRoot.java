@@ -129,7 +129,6 @@ class OPGRoot
         String apiURL       = "https://api.1pt.mobi/V3.1/Api/";
         String interviewURL = "https://api.1pt.mobi/i/interview";
         String mediaURL     = "https://api.1pt.mobi/i/Media?";
-        
 
         if (!validateString(username) || !validateString(sharedKey))
         {

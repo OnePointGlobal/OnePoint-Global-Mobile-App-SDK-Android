@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,7 +19,7 @@ import com.opg.sdk.models.OPGAuthenticate;
  */
 public class AuthenticateActivity extends AppCompatActivity
 {
-    private EditText appLogInUserNameEdt, appLogInPwdEdt, etAdminUserName, etAdminSharedKey;
+    private EditText appLogInUserNameEdt, appLogInPwdEdt, etAdminUserName, etAdminSharedKey,etAppVersion;
     private AlertDialog.Builder alertDialog;
 
     private TextView output_tv;
@@ -39,8 +39,10 @@ public class AuthenticateActivity extends AppCompatActivity
         etAdminSharedKey.setSingleLine(true);
         appLogInUserNameEdt = (EditText) findViewById(R.id.app_username);
         appLogInPwdEdt = (EditText) findViewById(R.id.app_password);
+        etAppVersion = (EditText) findViewById(R.id.app_version);
         appLogInUserNameEdt.setSingleLine(true);
         appLogInPwdEdt.setSingleLine(true);
+        etAppVersion.setSingleLine(true);
 
         output_tv = (TextView) findViewById(R.id.output_tv);
         alertDialog = new AlertDialog.Builder(this);
@@ -86,6 +88,8 @@ public class AuthenticateActivity extends AppCompatActivity
                 adminUserName = etAdminUserName.getText().toString().trim();
             if(etAdminSharedKey.getText() != null)
                 adminSharedKey = etAdminSharedKey.getText().toString().trim();
+            if(etAppVersion.getText() != null)
+                appVersion = etAppVersion.getText().toString().trim();
         }
 
         @Override
@@ -103,8 +107,10 @@ public class AuthenticateActivity extends AppCompatActivity
                 OPGSDK opgsdk = new OPGSDK();
                 //Initialising the OPGSDK with adminUsername and adminSharedKey
                 OPGSDK.initialize(adminUserName , adminSharedKey, getApplicationContext());
-                //authenticate the panelist
+                opgsdk.setAppVersion(appVersion,getApplicationContext());
+                //authenticate the panellist
                 opgAuthenticate = opgsdk.authenticate(appLoginUserName, appLoginPwd,AuthenticateActivity.this);
+
             }
             catch (Exception ex) {
                 Log.i("DemoApp", ex.getMessage());

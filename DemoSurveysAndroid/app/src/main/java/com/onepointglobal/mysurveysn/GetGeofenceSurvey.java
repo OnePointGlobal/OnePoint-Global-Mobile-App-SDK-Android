@@ -8,18 +8,20 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
 import com.google.android.gms.location.LocationServices;
 import com.opg.sdk.models.OPGGeofenceSurvey;
 
@@ -235,12 +238,15 @@ public class GetGeofenceSurvey extends AppCompatActivity implements LocationList
                 else
                 {
                     Toast.makeText(getApplicationContext(),"No Surveys found in this location",Toast.LENGTH_SHORT).show();
+                   // ((TextView)findViewById(R.id.get_survey_output)).setText("No Surveys found for these credentials");
+                    //listView.setAdapter(new SurveyAdapter(getApplicationContext(),(ArrayList<OPGGeofenceSurvey>) opgSurveys));
                 }
 
             }
             else
             {
                 Toast.makeText(getApplicationContext(),"No Surveys found in this location",Toast.LENGTH_SHORT).show();
+               // ((TextView)findViewById(R.id.get_survey_output)).setText("No Surveys found for these credentials");
             }
 
         }
@@ -278,6 +284,7 @@ public class GetGeofenceSurvey extends AppCompatActivity implements LocationList
             // Populate the data into the template view using the data object
             name.setText(surveys.getSurveyName());
             surveyid.setText(surveys.getSurveyReference());
+            //updateddate.setText(surveys.getLastUpdatedDate());
             imv.setImageDrawable(getContext().getResources().getDrawable(R.drawable.bkgnd));
             // Return the completed view to render on screen
             return convertView;
