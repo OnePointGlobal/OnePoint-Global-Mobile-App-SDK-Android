@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 
 import com.opg.sdk.OPGSDK;
+import com.opg.sdk.models.OPGPanel;
+import com.opg.sdk.models.OPGPanelPanellist;
 import com.opg.sdk.models.OPGPanellistPanel;
 import com.opg.sdk.models.OPGSurvey;
 import com.opg.sdk.models.OPGSurveyPanel;
@@ -135,6 +137,35 @@ private class SurveyListTask extends AsyncTask<String, Void, List<OPGSurvey>>
             }
             else
             {
+
+                /*OPGPanellistPanel opgPanellistPanel =  Util.getOPGSDKInstance().getPanellistPanel(getApplicationContext());
+                if(opgPanellistPanel.isSuccess())
+                {
+                    List<OPGPanel> panelList = opgPanellistPanel.getPanelArray();
+                    if(panelList.size() > 0)
+                    {
+                        Util.panelID = panelList.get(0).getPanelID();
+                    }
+                    //fetching the list of surveys for first panel
+                     if(Util.panelID >0)
+                     {
+                         surveyList =  Util.getOPGSDKInstance().getSurveys(getApplicationContext(),Util.panelID+"");
+                     }
+                     else
+                     {
+                         throw  new Exception("panel");
+                     }
+
+
+                }*/
+                if(params.length > 0 && params[0] != null)
+                {
+                    surveyList = Util.getOPGSDKInstance().getSurveys(SurveyListActivity.this,params[0]);
+                    Util.panelID = Long.parseLong(params[0]);
+
+                }
+                else
+
                 // Getting the list of surveys
                 //Case 2 : When authentication is done and unique id is generated for this panellist
                 if(Util.getOPGSDKInstance().getUniqueID(getApplicationContext()) != null)

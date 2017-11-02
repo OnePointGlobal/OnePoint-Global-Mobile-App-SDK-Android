@@ -15,8 +15,7 @@ import com.opg.sdk.models.OPGPanellistPanel;
  */
 public class Util
 {
-private static OPGSDK opgsdk;
-    public static long panelistID;
+   private static OPGSDK opgsdk;
     public static long panelID;
 
 
