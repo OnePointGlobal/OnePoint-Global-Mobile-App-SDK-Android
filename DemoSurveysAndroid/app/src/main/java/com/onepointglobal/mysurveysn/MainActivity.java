@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,8 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.opg.sdk.OPGSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +40,11 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.GET_ACCOUNTS
+            Manifest.permission.READ_PHONE_STATE
     };
     private String[] apiArray = new String[]{"Authenticate","Authenticate - SocialMedia","1.SurveyList","2.Script","3.Download Media",
-            "4.Upload Media","5.PanelistPanel", "6.GetThemes", "7.GetPanels","8.GetSurveyPanels", "9.ForgotPassword", "10.ChangePassword",
-            "11.PanellistProfile","12.UpdatePanelistProfile","13.GeoFencing","14.PushNotification","15.GetCountries","16.logout"};
+            "4.Upload Media","5.PanellistPanel", "6.GetThemes", "7.GetPanels","8.GetSurveyPanels", "9.ForgotPassword", "10.ChangePassword",
+            "11.PanellistProfile","12.UpdatePanellistProfile","13.GeoFencing","14.PushNotification","15.GetCountries","16.logout"};
 
 
     @Override
@@ -77,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                     case 2 : intent = new Intent(MainActivity.this,SurveyListActivity.class);
                         startActivity(intent);
                         break;
-                    case 3 : intent = new Intent(MainActivity.this,GetScriptActivity.class);
-                        startActivity(intent);
+                    case 3 :
+                        Toast.makeText(MainActivity.this,"Not Yet Integrated.",Toast.LENGTH_SHORT).show();
                         break;
                     case 4 : intent = new Intent(MainActivity.this,DownloadMediaActivity.class);
                         startActivity(intent);
@@ -86,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     case 5 :intent = new Intent(MainActivity.this,UploadMediaActivity.class);
                         startActivity(intent);
                         break;
-                    case 6 : intent = new Intent(MainActivity.this,GetPanelistPanel.class);
+                    case 6 : intent = new Intent(MainActivity.this,GetPanellistPanel.class);
                         intent.putExtra("API_INDEX",position);
                         startActivity(intent);
                         break;
@@ -106,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
                     case 11 :  intent = new Intent(MainActivity.this,ChangePasswordActivity.class);
                         startActivity(intent);
                         break;
-                    case 12 :  intent = new Intent(MainActivity.this,GetPanelistProfileActivity.class);
+                    case 12 :  intent = new Intent(MainActivity.this,GetPanellistProfileActivity.class);
                         startActivity(intent);
                         break;
-                    case 13 :  intent = new Intent(MainActivity.this,UpdatePanelistProfileActivity.class);
+                    case 13 :  intent = new Intent(MainActivity.this,UpdatePanellistProfileActivity.class);
                         startActivity(intent);
                         break;
                     case 14 : intent = new Intent(MainActivity.this,GetGeofenceSurvey.class);

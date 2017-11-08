@@ -68,11 +68,11 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="Change Password"/>
         <activity
-            android:name=".GetPanelistProfileActivity"
+            android:name=".GetPanellistProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="Panellist Profile"/>
         <activity
-            android:name=".UpdatePanelistProfileActivity"
+            android:name=".UpdatePanellistProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="Update Panellist Profile"
             android:windowSoftInputMode="adjustPan"/>
@@ -89,7 +89,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="Upload Media"/>
         <activity
-            android:name=".GetPanelistPanel"
+            android:name=".GetPanellistPanel"
             android:configChanges="orientation|keyboardHidden"
             android:label="GetPanellistPanel"/>
         <activity

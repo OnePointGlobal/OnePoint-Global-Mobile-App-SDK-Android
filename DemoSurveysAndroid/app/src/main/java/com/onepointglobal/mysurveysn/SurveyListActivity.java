@@ -217,7 +217,7 @@ private class SurveyListTask extends AsyncTask<String, Void, List<OPGSurvey>>
                             //OpgSDkLite supports only online surveys.
                             if(surveys.isOffline())
                             {
-                                Toast.makeText(getApplicationContext(), "This is lite opgsdk. Offline survey will not work.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "This is a lite opgsdk. Offline survey will not work.", Toast.LENGTH_LONG).show();
                             }
                             else
                             {
