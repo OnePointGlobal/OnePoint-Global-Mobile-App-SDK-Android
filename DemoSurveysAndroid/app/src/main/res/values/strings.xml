@@ -40,11 +40,11 @@
     <string name="admin_shared_key">Admin Shared Key</string>
     <string name="app_login_userName">Panellist UserName</string>
     <string name="app_login_password">Panellist Password</string>
-    <string name="app_ersion">App Version</string>
+    <string name="app_version">App Version</string>
     <string name="authenticate">Authenticate</string>
     <string name="unique_id_hint">UniqueId</string>
     <string name="api_list">API List</string>
-    <string name="panelid_cb_title">Use This</string>
+    <string name="panelid_cb_title">Use This (If you want to get the surveys for a particular panel Please enter panel id and check this box.)</string>
 
     <string name="title_activity_fullscreen">GeoFenceSurveys</string>
     <string name="dummy_button">Dummy Button</string>

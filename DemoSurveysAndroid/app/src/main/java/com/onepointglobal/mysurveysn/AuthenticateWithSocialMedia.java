@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -59,11 +59,11 @@ public class AuthenticateWithSocialMedia extends AppCompatActivity {
         if(Util.isOnline(AuthenticateWithSocialMedia.this))
         {
             String facebook_token =facebook_token_et.getText().toString().trim();
-            if(!facebook_token.isEmpty()){
-                new  AuthenticateTask(facebook_token,"").execute();
-            }else{
-                facebook_token_et.setError("Facebook token should not be empty!!!!");
-            }
+           if(!facebook_token.isEmpty()){
+               new  AuthenticateTask(facebook_token,"").execute();
+           }else{
+               facebook_token_et.setError("Facebook token should not be empty!!!!");
+           }
         }
         else
         {
@@ -160,7 +160,7 @@ public class AuthenticateWithSocialMedia extends AppCompatActivity {
                     facebook_output_tv.setText(builder.toString());
 
                 if(facebook_token.isEmpty())
-                    google_output_tv.setText(builder.toString());
+                        google_output_tv.setText(builder.toString());
 
             }
         }

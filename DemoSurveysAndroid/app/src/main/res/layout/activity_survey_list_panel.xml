@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/linear_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorPrimary"></View>
+        android:background="@color/colorPrimary"></View>-->
     <TextView
         android:id="@+id/get_survey_output"
         android:layout_width="match_parent"

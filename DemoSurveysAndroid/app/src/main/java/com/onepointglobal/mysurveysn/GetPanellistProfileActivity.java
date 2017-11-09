@@ -1,18 +1,13 @@
 package com.onepointglobal.mysurveysn;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.opg.sdk.OPGSDK;
 import com.opg.sdk.models.OPGPanellistProfile;
@@ -22,7 +17,7 @@ import java.text.SimpleDateFormat;
 /**
  * The type Get panelist profile activity.
  */
-public class GetPanelistProfileActivity extends AppCompatActivity
+public class GetPanellistProfileActivity extends AppCompatActivity
 {
 
     private TextView output_tv;
@@ -40,13 +35,13 @@ public class GetPanelistProfileActivity extends AppCompatActivity
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Loading...");
-        if(Util.isOnline(GetPanelistProfileActivity.this))
+        if(Util.isOnline(GetPanellistProfileActivity.this))
         {
             new GetPanelistProfileTask().execute();
         }
         else
         {
-            Util.showAlert(GetPanelistProfileActivity.this);
+            Util.showAlert(GetPanellistProfileActivity.this);
         }
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
@@ -82,12 +77,12 @@ public class GetPanelistProfileActivity extends AppCompatActivity
             try
             {
                 // To get the profile of panelist
-                profile =  opgsdk.getPanellistProfile(GetPanelistProfileActivity.this);
+                profile =  opgsdk.getPanellistProfile(GetPanellistProfileActivity.this);
                 String str = profile.getErrorMessage();
             }
             catch (Exception ex)
             {
-                Log.i(GetPanelistProfileActivity.class.getName(),ex.getMessage());
+                Log.i(GetPanellistProfileActivity.class.getName(),ex.getMessage());
                 profile.setErrorMessage(ex.getMessage());
             }
             return profile;

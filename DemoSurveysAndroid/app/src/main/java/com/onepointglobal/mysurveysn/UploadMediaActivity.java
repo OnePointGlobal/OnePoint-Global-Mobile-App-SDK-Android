@@ -1,21 +1,26 @@
 package com.onepointglobal.mysurveysn;
 
+import android.content.CursorLoader;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.DocumentsContract;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.opg.sdk.OPGSDK;
 
 /**
  * The type Upload media activity.
@@ -141,7 +146,7 @@ public class UploadMediaActivity extends AppCompatActivity {
             path_tv.setText(path);
         }else if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
-            String path = uri.getPath();//getAudioRealPath(uri);
+            String path = getAudioRealPath(uri);//getAudioRealPath(uri);
             path_tv.setText(path);
         }
     }

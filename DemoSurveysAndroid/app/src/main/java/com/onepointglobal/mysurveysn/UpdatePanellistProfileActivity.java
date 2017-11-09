@@ -23,7 +23,7 @@ import java.util.Calendar;
 /**
  * The type Update panelist profile activity.
  */
-public class UpdatePanelistProfileActivity extends AppCompatActivity {
+public class UpdatePanellistProfileActivity extends AppCompatActivity {
 
     private EditText et_firstName, et_lastName, et_email, et_mobileNo, et_address1, et_address2, et_postalcode, et_maritalStatus;
 
@@ -73,14 +73,14 @@ public class UpdatePanelistProfileActivity extends AppCompatActivity {
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Loading...");
 
-        if(Util.isOnline(UpdatePanelistProfileActivity.this))
+        if(Util.isOnline(UpdatePanellistProfileActivity.this))
         {
             //Getting the panelist profile
             new GetPanelistProfileTask().execute();
         }
         else
         {
-            Util.showAlert(UpdatePanelistProfileActivity.this);
+            Util.showAlert(UpdatePanellistProfileActivity.this);
         }
 
 
@@ -107,7 +107,7 @@ public class UpdatePanelistProfileActivity extends AppCompatActivity {
      */
     public void showDatePicker(int mYear, int mMonth, int mDay) {
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(UpdatePanelistProfileActivity.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(UpdatePanellistProfileActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -131,11 +131,11 @@ public class UpdatePanelistProfileActivity extends AppCompatActivity {
             OPGPanellistProfile profile = null;
             try
             {
-                profile = Util.getOPGSDKInstance().getPanellistProfile(UpdatePanelistProfileActivity.this);
+                profile = Util.getOPGSDKInstance().getPanellistProfile(UpdatePanellistProfileActivity.this);
             }
             catch (Exception ex)
             {
-                Log.i(UpdatePanelistProfileActivity.class.getName(), ex.getMessage());
+                Log.i(UpdatePanellistProfileActivity.class.getName(), ex.getMessage());
             }
             return profile;
         }
@@ -240,7 +240,7 @@ public class UpdatePanelistProfileActivity extends AppCompatActivity {
         protected OPGUpdatePanellistProfile doInBackground(OPGPanellistProfile... params)
         {
             // Updating the panelist profile
-            return Util.getOPGSDKInstance().updatePanellistProfile(UpdatePanelistProfileActivity.this, params[0]);
+            return Util.getOPGSDKInstance().updatePanellistProfile(UpdatePanellistProfileActivity.this, params[0]);
         }
 
         @Override
