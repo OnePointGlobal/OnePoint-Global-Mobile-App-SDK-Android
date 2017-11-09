@@ -164,8 +164,8 @@ public class GetPanellistPanel extends AppCompatActivity {
             TextView updateddate = (TextView) convertView.findViewById(R.id.theme_lastupdated);
 
             name.setText("PanelID :"+panelPanelist.getPanelID());
-            description.setText("PanelistID : "+panelPanelist.getPanellistID());
-            surveyid.setText("PanelPanelistID :"+panelPanelist.getPanelPanellistID());
+            description.setText("PanellistID : "+panelPanelist.getPanellistID());
+            surveyid.setText("PanelPanellistID :"+panelPanelist.getPanelPanellistID());
             updateddate.setText("LastUpdated : "+panelPanelist.getLastUpdatedDate());
             // Return the completed view to render on screen
             return convertView;
