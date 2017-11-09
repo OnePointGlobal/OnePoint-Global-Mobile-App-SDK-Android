@@ -100,8 +100,7 @@ private class ScriptTask extends AsyncTask<String,Void,OPGScript>
         OPGScript opgScript = new OPGScript();
         try
         {
-
-            opgScript = Util.getOPGSDKInstance().getScript(GetScriptActivity.this,params[0]);
+            //opgScript = Util.getOPGSDKInstance().getScript(GetScriptActivity.this,params[0]);
         }catch (Exception ex)
         {
             Log.i(GetScriptActivity.class.getName(),ex.getLocalizedMessage());

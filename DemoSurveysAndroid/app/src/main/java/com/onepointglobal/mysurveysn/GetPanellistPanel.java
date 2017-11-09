@@ -17,14 +17,13 @@ import android.widget.TextView;
 
 import com.opg.sdk.models.OPGPanelPanellist;
 import com.opg.sdk.models.OPGPanellistPanel;
-import com.opg.sdk.models.OPGTheme;
 
 import java.util.List;
 
 /**
  * The type Get panelist panel.
  */
-public class GetPanelistPanel extends AppCompatActivity {
+public class GetPanellistPanel extends AppCompatActivity {
     private TextView panelist_panel_output;
     private ProgressDialog progressDialog;
     private ListView listView;
@@ -40,13 +39,13 @@ public class GetPanelistPanel extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
         progressDialog.setMessage("Loading...");
-        if(Util.isOnline(GetPanelistPanel.this))
+        if(Util.isOnline(GetPanellistPanel.this))
         {
             new PanelistPanelTask().execute();
         }
         else
         {
-            Util.showAlert(GetPanelistPanel.this);
+            Util.showAlert(GetPanellistPanel.this);
         }
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
@@ -113,7 +112,7 @@ public class GetPanelistPanel extends AppCompatActivity {
             {
                 if(panelPanelist.getPanelPanellistArray() != null && panelPanelist.getPanelPanellistArray().size()>0)
                 {
-                    listView.setAdapter(new PanelPanelistAdapter(GetPanelistPanel.this,panelPanelist.getPanelPanellistArray()));
+                    listView.setAdapter(new PanelPanelistAdapter(GetPanellistPanel.this,panelPanelist.getPanelPanellistArray()));
                 }
                 else
                 {
@@ -165,8 +164,8 @@ public class GetPanelistPanel extends AppCompatActivity {
             TextView updateddate = (TextView) convertView.findViewById(R.id.theme_lastupdated);
 
             name.setText("PanelID :"+panelPanelist.getPanelID());
-            description.setText("PanelistID : "+panelPanelist.getPanellistID());
-            surveyid.setText("PanelPanelistID :"+panelPanelist.getPanelPanellistID());
+            description.setText("PanellistID : "+panelPanelist.getPanellistID());
+            surveyid.setText("PanelPanellistID :"+panelPanelist.getPanelPanellistID());
             updateddate.setText("LastUpdated : "+panelPanelist.getLastUpdatedDate());
             // Return the completed view to render on screen
             return convertView;
