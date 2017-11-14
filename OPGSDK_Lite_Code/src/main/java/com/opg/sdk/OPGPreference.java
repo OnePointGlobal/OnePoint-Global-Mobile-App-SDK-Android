@@ -62,6 +62,9 @@ public class OPGPreference
     private final static String APP_LOGIN_USERNAME = "appLoginUser";
     private final static String APP_LOGIN_PASSWORD = "appLoginPassword";
     private final static String IS_APP_DEBUGABLE = "appDebuggable";
+    private static final String IS_SURVEY_LOADING_FIRST_TIME = "isLoadingSurveyFirstTime";
+
+
 
 
 
@@ -446,5 +449,15 @@ public class OPGPreference
     public static boolean clearOPGGeofenceSurveys(Context context)
     {
         return context.getSharedPreferences(OPG_GEOFENCE_PREF,Context.MODE_PRIVATE).edit().clear().commit();
+    }
+
+    public static boolean isSurveyLoadingFirstTime(Context context)
+    {
+      return getProperty(context, IS_SURVEY_LOADING_FIRST_TIME, false);
+    }
+
+    public static void setIsSurveyLoadingFirstTime(Context context,boolean isSurveyLoadingFirstTime)
+    {
+        setProperty(context, IS_SURVEY_LOADING_FIRST_TIME,isSurveyLoadingFirstTime);
     }
 }

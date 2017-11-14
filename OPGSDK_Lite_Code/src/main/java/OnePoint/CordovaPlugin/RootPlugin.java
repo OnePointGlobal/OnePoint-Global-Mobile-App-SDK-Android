@@ -4,10 +4,6 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
-import android.util.Log;
-
-//import com.opg.main.Utils;
 
 import com.opg.sdk.OPGSDKConstant;
 
@@ -17,10 +13,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+//import com.opg.main.Utils;
 
 /*import com.opg.main.OPGApplication;
 import com.opg.main.OPGDBHelper;*/
@@ -28,10 +21,58 @@ import com.opg.main.OPGDBHelper;*/
 //import OnePoint.Logging.LogManager;
 
 public class RootPlugin extends CordovaPlugin {
+public static final String DOLLAR_SIGN = "$";
+	public static final String ACTION_NETWORK = "_network";
+	public static final String ACTION_DATABASE = "_database";
+	public static final String ACTION_LOGIN = "login";
+	public static final String ACTION_PANELS = "panels";
+	public static final String ACTION_FETCH_PROFILE = "fetchProfile";
+	public static final String ACTION_EDIT_PROFILE = "editProfile";
+	public static final String ACTION_CHANGE_PASSWORD = "changePassword";
+	public static final String ACTION_FORGOT_PASSWORD = "forgotPassword";
+	public static final String ACTION_ENABLE_GPS = "enableGPS";
+	public static final String ACTION_SURVEY = "survey";
+	public static final String ACTION_MEDIA_UPLOAD = "mediaUpload";
+
+/*	public void setDatabase(String name) {
+		OPGDBHelper.setDatabaseName(name);
+		//LogManager.getLogger(getClass()).error(name + " SETUP STARETED!");
+		OPGDBHelper.getInstance().getWritableDatabase();
+		//LogManager.getLogger(getClass()).error(name + " SETUP ENDED!");
+	}*/
+	public static final String ACTION_MEDIA_DOWNLOAD = "mediaDownload";
+	public static final String ACTION_PICK_MEDIA = "local";
+	public static final String ACTION_LOCAL_STORAGE_GET = "get";
+	public static final String ACTION_LOCAL_STORAGE_SET = "set";
+	public static final String ACTION_TAKE_SURVEY = "takeSurvey";
+	public static final String ACTION_UPDATE_TAKE_SURVEY = "updateTakeSurvey";
+	public static final String ACTION_LOGOUT = "logout";
+	public static final String ACTION_CHECK_FOR_UPDATES = "checkForUpdatesPlugin";
+	public static final String ACTION_KEYBOARD_SHOW = "show";
+	public static final String ACTION_KEYBOARD_HIDE = "hide";
+	public static final String ACTION_FETCH_ABSELUTE_PATH = "_getPath";
+	public static final String ACTION_APPUPDATE = "appUpdate";
+	public static final String ACTION_OPEN_IN_BROWSER = "openWindow";
+	public static final String ACTION_UPLOAD_OFFLINE_SURVEY_RESULTS = "uploadOfflineResults";
+	public static final String ACTION_LOAD_NOTIFICATIONS = "loadNotifications";
+	public static final String ACTION_DELETE_NOTIFICATIONS = "deleteNotification";
+	public static final String ACTION_UPDATE_NOTIFICATIONS = "updateNotification";
+	public static final String ACTION_LOAD_GEOLOCATIONS = "loadGeoLocations";
+	public static final String ACTION_SEND_LOCAL_NOTIFICATIONS = "sendLocalNotifications";
+	public static final String ACTION_MEDIA_PICK_MAGE_FROM_CAMERA = "pickImageFromCamera";
+	public static final String ACTION_MEDIA_PICK_IMAGE_FROM_GALLERY = "pickImageFromGallery";
+	public static final String ACTION_MEDIA_PICK_AUDIO_FROM_GALLERY = "pickAudioFromGallery";
+	public static final String ACTION_MEDIA_START_RECORDING_AUDIO = "startRecordingAudio";
+	public static final String ACTION_MEDIA_STOP_RECORDING_AUDIO = "stopRecordingAudio";
+	public static final String ACTION_MEDIA_START_PLAYING_RECORDED_AUDIO = "startPlayingRecordedAudio";
+	public static final String ACTION_MEDIA_STOP_PALYING_RECORDED_AUDIO = "stopPlayingRecordedAudio";
+	public static final String ACTION_MEDIA_PICK_VIDEO_FROM_CAMERA = "pickVideoFromCamera";
+	public static final String ACTION_MEDIA_PICK_VIDEO_FROM_GALLERY = "pickVideoFromGallery";
+	public static final String ACTION_MEDIA_PLAY_VIDEO_FROM_SELECTEDPATH = "playVideoSelectedPath";
+	public static final String ACTION_MEDIA_SHOW_IMAGE_FROM_PATH = "showImageFromPath";
 	private static final String CODE = "code";
 	private static final String MESSAGE = "message";
 	private static CallbackContext callback;
-
 	/* REPLY MESSAGE STRINGS */
 	private final String SUCCESS = "Success";
 	private final String INVALID_REQUEST = "Invalid Request";
@@ -40,6 +81,22 @@ public class RootPlugin extends CordovaPlugin {
 	private final String INVALID_USR_PWD = "Wrong Username/Password";
 	private final String ERROR = "Error";
 	private final String UNKNOWN_ERROR = "Unknown Error";
+
+	public static void notifyNetworkStatus(int code, String message) {
+		if (callback != null) {
+			JSONObject jobj = new JSONObject();
+			try {
+				jobj.put(CODE, code);
+				jobj.put(MESSAGE, message);
+				callback.error( DOLLAR_SIGN + jobj.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+				//LogManager.getLogger("RootPlugin").error(e.getMessage());
+			}
+		} else {
+			//Log.d("RootPlugin", "NO CALLBACK REGISTERED FOR NETWORK STATUS!");
+		}
+	}
 
 	public void init(Context con, CallbackContext callbackContext) {
 		//LogManager.Configure("VitaccessLog.xml");
@@ -62,13 +119,6 @@ public class RootPlugin extends CordovaPlugin {
 		callback.sendPluginResult(pluginResult);
 
 	}
-
-/*	public void setDatabase(String name) {
-		OPGDBHelper.setDatabaseName(name);
-		//LogManager.getLogger(getClass()).error(name + " SETUP STARETED!");
-		OPGDBHelper.getInstance().getWritableDatabase();
-		//LogManager.getLogger(getClass()).error(name + " SETUP ENDED!");
-	}*/
 
 	public String getReplyJsonString(int code) {
 		JSONObject jobj = new JSONObject();
@@ -103,6 +153,7 @@ public class RootPlugin extends CordovaPlugin {
 		}
 		return jobj.toString();
 	}
+
 	public boolean isOnline() {
 
 		ConnectivityManager cm = (ConnectivityManager) cordova.getActivity().getSystemService(OPGSDKConstant.CONNECTIVITY_SERVICE_STR);
@@ -123,7 +174,7 @@ public class RootPlugin extends CordovaPlugin {
 			return false;
 		}
 	}
-	
+
 	public String readPanelListCachePathFromDevice() {
 		/*try {
 
@@ -146,62 +197,4 @@ public class RootPlugin extends CordovaPlugin {
 		}*/
 		return null;
 	}
-public static final String DOLLAR_SIGN = "$";
-	public static void notifyNetworkStatus(int code, String message) {
-		if (callback != null) {
-			JSONObject jobj = new JSONObject();
-			try {
-				jobj.put(CODE, code);
-				jobj.put(MESSAGE, message);
-				callback.error( DOLLAR_SIGN + jobj.toString());
-			} catch (JSONException e) {
-				e.printStackTrace();
-				//LogManager.getLogger("RootPlugin").error(e.getMessage());
-			}
-		} else {
-			//Log.d("RootPlugin", "NO CALLBACK REGISTERED FOR NETWORK STATUS!");
-		}
-	}
-
-	public static final String ACTION_NETWORK = "_network";
-	public static final String ACTION_DATABASE = "_database";
-	public static final String ACTION_LOGIN = "login";
-	public static final String ACTION_PANELS = "panels";
-	public static final String ACTION_FETCH_PROFILE = "fetchProfile";
-	public static final String ACTION_EDIT_PROFILE = "editProfile";
-	public static final String ACTION_CHANGE_PASSWORD = "changePassword";
-	public static final String ACTION_FORGOT_PASSWORD = "forgotPassword";
-	public static final String ACTION_ENABLE_GPS = "enableGPS";
-	public static final String ACTION_SURVEY = "survey";
-	public static final String ACTION_MEDIA_UPLOAD = "mediaUpload";
-	public static final String ACTION_MEDIA_DOWNLOAD = "mediaDownload";
-	public static final String ACTION_PICK_MEDIA = "local";
-	public static final String ACTION_LOCAL_STORAGE_GET = "get";
-	public static final String ACTION_LOCAL_STORAGE_SET = "set";
-	public static final String ACTION_TAKE_SURVEY = "takeSurvey";
-	public static final String ACTION_UPDATE_TAKE_SURVEY = "updateTakeSurvey";
-	public static final String ACTION_LOGOUT = "logout";
-	public static final String ACTION_CHECK_FOR_UPDATES = "checkForUpdatesPlugin";
-	public static final String ACTION_KEYBOARD_SHOW = "show";
-	public static final String ACTION_KEYBOARD_HIDE = "hide";
-	public static final String ACTION_FETCH_ABSELUTE_PATH = "_getPath";
-	public static final String ACTION_APPUPDATE = "appUpdate";
-	public static final String ACTION_OPEN_IN_BROWSER = "openWindow";
-	public static final String ACTION_UPLOAD_OFFLINE_SURVEY_RESULTS = "uploadOfflineResults";
-	public static final String ACTION_LOAD_NOTIFICATIONS = "loadNotifications";
-	public static final String ACTION_DELETE_NOTIFICATIONS = "deleteNotification";
-	public static final String ACTION_UPDATE_NOTIFICATIONS = "updateNotification";
-	public static final String ACTION_LOAD_GEOLOCATIONS = "loadGeoLocations";
-	public static final String ACTION_SEND_LOCAL_NOTIFICATIONS = "sendLocalNotifications";
-	public static final String ACTION_MEDIA_PICK_MAGE_FROM_CAMERA = "pickImageFromCamera";
-	public static final String ACTION_MEDIA_PICK_IMAGE_FROM_GALLERY = "pickImageFromGallery";
-	public static final String ACTION_MEDIA_PICK_AUDIO_FROM_GALLERY = "pickAudioFromGallery";
-	public static final String ACTION_MEDIA_START_RECORDING_AUDIO = "startRecordingAudio";
-	public static final String ACTION_MEDIA_STOP_RECORDING_AUDIO = "stopRecordingAudio";
-	public static final String ACTION_MEDIA_START_PLAYING_RECORDED_AUDIO = "startPlayingRecordedAudio";
-	public static final String ACTION_MEDIA_STOP_PALYING_RECORDED_AUDIO = "stopPlayingRecordedAudio";
-	public static final String ACTION_MEDIA_PICK_VIDEO_FROM_CAMERA = "pickVideoFromCamera";
-	public static final String ACTION_MEDIA_PICK_VIDEO_FROM_GALLERY = "pickVideoFromGallery";
-	public static final String ACTION_MEDIA_PLAY_VIDEO_FROM_SELECTEDPATH = "playVideoSelectedPath";
-	public static final String ACTION_MEDIA_SHOW_IMAGE_FROM_PATH = "showImageFromPath";
 }

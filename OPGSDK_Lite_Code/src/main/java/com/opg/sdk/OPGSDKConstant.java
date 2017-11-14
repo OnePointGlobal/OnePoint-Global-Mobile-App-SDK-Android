@@ -303,18 +303,7 @@ public class OPGSDKConstant
     public static final String VIDEO_     = "video_";
     public static final String IMAGE_GALLERY_       = "image_gallery_";
     public static final String CANNOT_CREATE_DIR      = "Cannot create dir ";
-    public static String VIDEO_CAPTURE = MediaStore.ACTION_VIDEO_CAPTURE;
-    public static String IMAGE_CAPTURE = MediaStore.ACTION_IMAGE_CAPTURE;
-    public static String ACTION_PICK = Intent.ACTION_PICK;
-    public static String EXTRA_LOCAL_ONLY = Intent.EXTRA_LOCAL_ONLY;
-    public static String ACTION_GET_CONTENT = Intent.ACTION_GET_CONTENT;
-    public static String EXTRA_OUTPUT = MediaStore.EXTRA_OUTPUT;
-    public static String ACTION_VIEW = Intent.ACTION_VIEW;
-    public static String MEDIA_PATH_KEY = "path";
-    public static String FILE_SEPARATOR = File.separator;
     public static final String  PROGRESS_DIALOG = "progress_dialog";
-
-
     /*********************Notification***************/
     public static final String BEEP = "beep";
     public static final String ALERT = "alert";
@@ -327,7 +316,16 @@ public class OPGSDKConstant
     public static final String PROGRESS_STOP = "progressStop";
     public static final String BUTTON_INDEX = "buttonIndex";
     public static final String INPUT_1 = "input1";
-
+    public static final String CONNECTIVITY_SERVICE_STR = Context.CONNECTIVITY_SERVICE;
+    public static String VIDEO_CAPTURE = MediaStore.ACTION_VIDEO_CAPTURE;
+    public static String IMAGE_CAPTURE = MediaStore.ACTION_IMAGE_CAPTURE;
+    public static String ACTION_PICK = Intent.ACTION_PICK;
+    public static String EXTRA_LOCAL_ONLY = Intent.EXTRA_LOCAL_ONLY;
+    public static String ACTION_GET_CONTENT = Intent.ACTION_GET_CONTENT;
+    public static String EXTRA_OUTPUT = MediaStore.EXTRA_OUTPUT;
+    public static String ACTION_VIEW = Intent.ACTION_VIEW;
+    public static String MEDIA_PATH_KEY = "path";
+    public static String FILE_SEPARATOR = File.separator;
     /***** KEYS USED FOR APP NAME ****************/
     public static String OPEN_BRACE1_KEY = "\\{";
     public static String CLOSE_BRACE1_KEY = "\\}";
@@ -343,7 +341,6 @@ public class OPGSDKConstant
     public static String ASTERIC_KEY ="\\*";
     public static String DOT_KEY_KEY ="\\.";
     public static String BACKSLASH_KEY ="\\\\";
-
     /***Runtime Permissions *****/
 
     public static String APP_DETAILS_SETTINGS = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
@@ -365,9 +362,6 @@ public class OPGSDKConstant
     public static String AUDIO_PERMISSION_MSG= "audio_permission_msg";
     public static String RECORD_PERMISSION_MSG= "record_permission_msg";
     public static String PACKAGE = "package";
-
-    public static final String CONNECTIVITY_SERVICE_STR = Context.CONNECTIVITY_SERVICE;
-
     /**GETDEVICEORITNTATIONPLUGIN**/
     public static String DEVICE_STATE_KEY = "device_state";
 }

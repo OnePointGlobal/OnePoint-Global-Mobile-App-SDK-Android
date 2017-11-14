@@ -1,13 +1,11 @@
 package com.opg.sdk.restclient;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.opg.sdk.Aes256;
 import com.opg.sdk.BuildConfig;
 import com.opg.sdk.OPGPreference;
 import com.opg.sdk.OPGR;
@@ -22,7 +20,6 @@ import com.opg.sdk.models.OPGPanel;
 import com.opg.sdk.models.OPGPanelPanellist;
 import com.opg.sdk.models.OPGPanellistPanel;
 import com.opg.sdk.models.OPGPanellistProfile;
-import com.opg.sdk.models.OPGScript;
 import com.opg.sdk.models.OPGSurvey;
 import com.opg.sdk.models.OPGSurveyPanel;
 import com.opg.sdk.models.OPGTheme;
@@ -32,14 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import OnePoint.Common.Utils;
 
 import static com.opg.sdk.OPGSDKConstant.COLON;
 import static com.opg.sdk.OPGSDKConstant.ERROR_FORGOT_PASSWORD_KEY;
@@ -238,89 +230,6 @@ public class OPGParseResult
         return updatePanelistProfile;
     }
 
-    /**
-     *To parse the response for OPGScript
-     * @param surveyScriptResponse
-     * @return
-     * @throws Exception
-     */
-    /*public static OPGScript parseSurveyScript(Context context,String surveyScriptResponse,String surveyID) throws Exception
-    {
-        OPGScript opgScript = new OPGScript();
-        opgScript.setSurveyRef(surveyID);
-        if (surveyScriptResponse != null && !surveyScriptResponse.isEmpty())
-        {
-            JSONObject jsonObject = new JSONObject(surveyScriptResponse);
-            if(jsonObject.has(OPGSDKConstant.HTTP_STATUS_CODE))
-            {
-                opgScript.setSuccess(false);
-                opgScript.setStatusMessage(jsonObject.getString(OPGSDKConstant.MESSAGE));
-            }
-            else
-            {
-                opgScript.setSuccess(true);
-                opgScript.setStatusMessage(OPGSDKConstant.SUCCESS);
-                JSONObject scriptJson = jsonObject.getJSONObject(OPGSDKConstant.SCRIPT_CONTENT);
-                String byteCode = scriptJson.getString(OPGSDKConstant.BYTE_CODE);
-                if (byteCode != null && byteCode.length() > 0)
-                {
-                    opgScript.setScriptFilePath(saveScriptFile(context,byteCode, surveyID));
-                }
-                else
-                {
-                    opgScript.setSuccess(false);
-                    opgScript.setStatusMessage(OPGSDKConstant.ERROR_NO_SCRIPT);
-                }
-            }
-        }
-        else
-        {
-            opgScript.setSuccess(false);
-            opgScript.setStatusMessage(OPGSDKConstant.ERROR_SCRIPT);
-        }
-        return opgScript;
-    }*/
-
-    /*private static String saveScriptFile(Context context,String data,String surveyID)
-    {
-        String tmpDir;
-        try
-        {
-            File tempFile  = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Utils.getApplicationName(context) + File.separator + OPGSDKConstant.SCRIPTS);
-            if(!tempFile.exists())
-            {
-                tempFile.mkdirs();
-            }
-            File scriptFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Utils.getApplicationName(context) + File.separator + OPGSDKConstant.SCRIPTS + File.separator +surveyID+OPGSDKConstant.OPGS);
-            if(scriptFile.exists())
-            {
-                scriptFile.delete();
-            }
-            scriptFile.createNewFile();
-            byte[] byteCodeArray = Aes256.Base64ConvertedArray(data);
-            ByteArrayInputStream bis = new ByteArrayInputStream(byteCodeArray);
-            FileOutputStream fos = new FileOutputStream(scriptFile);
-
-            byte[] buf = new byte[1024];
-            for (int readNum; (readNum = bis.read(buf)) != -1;)
-            {
-                fos.write(buf, 0, readNum);
-            }
-            fos.close();
-            bis.close();
-
-            //FileWriter fileWriter = new FileWriter(scriptFile);
-            //fileWriter.write(data);
-            //fileWriter.close();
-            tmpDir = scriptFile.getAbsolutePath();
-        }
-        catch(Exception exception)
-        {
-            tmpDir = OPGSDKConstant.EXCEPTION_OCCURRED+exception.getMessage();
-            exception.printStackTrace();
-        }
-        return tmpDir;
-    }*/
 
     /**
      *To parse the response for array of OPGSurvey object
@@ -454,20 +363,6 @@ public class OPGParseResult
                     JSONArray themeArray = jsonArray.getJSONArray(i);
                     themeList.addAll((List<OPGTheme>)gson.fromJson(themeArray.toString(), listType));
                 }
-
-               /* JSONArray themeArray0 = jsonArray.getJSONArray(0);
-                Gson gson =getGsonInstance();
-                Type listType = new TypeToken<List<OPGTheme>>()
-                {
-                }.getType();
-                themeList =  gson.fromJson(themeArray0.toString(), listType);
-
-                if(jsonArray.length() > 1)
-                {
-                    JSONArray themeArray1 = jsonArray.getJSONArray(1);
-                    List<OPGTheme> opgThemes2 = gson.fromJson(themeArray1.toString(), listType);
-                    themeList.addAll(opgThemes2);
-                }*/
             }
             else
             {
@@ -648,24 +543,6 @@ public class OPGParseResult
         }
 
         return status;
-    }
-
-    public static boolean parseUploadResult(Context context,String uploadResponse) throws Exception{
-        if(uploadResponse!=null && !uploadResponse.isEmpty()){
-            JSONObject opguploadResponse = new JSONObject(uploadResponse);
-            if(200 == opguploadResponse.getInt(OPGSDKConstant.HTTP_STATUS_CODE))
-            {
-                return true;
-            }else{
-                if(opguploadResponse.has(OPGSDKConstant.ERROR_MESSAGE)){
-                    throw  new OPGException(opguploadResponse.getString(OPGSDKConstant.ERROR_MESSAGE));
-                }else{
-                    throw  new OPGException(OPGSDKConstant.ERROR_UPLOAD_FILE);
-                }
-            }
-        }else{
-            throw  new OPGException(OPGSDKConstant.ERROR_UPLOAD_FILE);
-        }
     }
 
 }
