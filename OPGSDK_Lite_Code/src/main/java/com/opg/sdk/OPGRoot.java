@@ -22,11 +22,9 @@ import com.opg.sdk.models.OPGForgotPassword;
 import com.opg.sdk.models.OPGGeofenceSurvey;
 import com.opg.sdk.models.OPGPanellistPanel;
 import com.opg.sdk.models.OPGPanellistProfile;
-import com.opg.sdk.models.OPGScript;
 import com.opg.sdk.models.OPGSurvey;
 import com.opg.sdk.models.OPGTheme;
 import com.opg.sdk.models.OPGUpdatePanellistProfile;
-import com.opg.sdk.models.OPGUploadResult;
 import com.opg.sdk.restclient.OPGHttpUrlRequest;
 import com.opg.sdk.restclient.OPGNetworkRequest;
 import com.opg.sdk.restclient.OPGParseResult;
@@ -91,11 +89,6 @@ class OPGRoot
         return matcher.matches();
     }
 
-    public static boolean isNumeric(String str)
-    {
-        return str.matches("[+-]?\\d*(\\.\\d+)?");
-    }
-
 
     public List<OPGGeofenceSurvey> getOpgGeofenceSurveyList(Context context) {
         return OPGPreference.getOPGGeofenceSurveys(context);
@@ -126,9 +119,9 @@ class OPGRoot
     protected void initialize(String username, String sharedKey, Context context) throws OPGException
     {
         /*live urls*/
-        String apiURL       = "https://api.1pt.mobi/V3.1/Api/";
+        String apiURL = "https://api.1pt.mobi/V3.1/Api/";
         String interviewURL = "https://api.1pt.mobi/i/interview";
-        String mediaURL     = "https://api.1pt.mobi/i/Media?";
+        String mediaURL = "https://api.1pt.mobi/i/Media?";
 
         if (!validateString(username) || !validateString(sharedKey))
         {
@@ -264,7 +257,6 @@ class OPGRoot
         }
         catch (Exception exception)
         {
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
             throw new OPGException(exception.getMessage());
         }
         return surveyList;
@@ -282,7 +274,6 @@ class OPGRoot
         try
         {
 
-            //String uniqueID = OPGPreference.getUniqueID(context);
             String sharedkey_auth = OPGPreference.getSharedKey(context);
             String username_auth = OPGPreference.getUsername(context);
             if (validateString(sharedkey_auth) && validateString(username_auth))
@@ -320,7 +311,6 @@ class OPGRoot
         }
         catch (Exception exception)
         {
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
             throw new OPGException(exception.getMessage());
         }
         return surveyList;
@@ -385,7 +375,6 @@ class OPGRoot
         }
         catch (Exception exception)
         {
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
             throw new OPGException(exception.getMessage());
         }
         return surveyList;
@@ -456,7 +445,6 @@ class OPGRoot
         }
         catch (Exception exception)
         {
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
             throw new OPGException(exception.getMessage());
         }
         return geofenceSurveys;
@@ -858,7 +846,6 @@ class OPGRoot
         {
             opgPanelistProfile.setSuccess(false);
             opgPanelistProfile.setStatusMessage(exception.getMessage());
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
         }
         return opgPanelistProfile;
     }
@@ -927,20 +914,6 @@ class OPGRoot
     }
 
     /**
-     * @param context
-     * @param surveyID
-     */
-    protected OPGScript getScript(Context context, String surveyID)
-    {
-        return new OPGScript();
-
-    }
-
-    protected void getScript(Context context, String surveyReference, OPGProgressUpdateInterface opgProgressUpdateInterface)
-    {
-    }
-
-    /**
      * Used to upload media to server
      * @param mediaFilePath
      * @throws OPGException
@@ -961,7 +934,7 @@ class OPGRoot
                     try
                     {
                         String mediaRoute     = (uniqueID==null)?OPGSDKConstant.MEDIA_POST:(OPGSDKConstant.MEDIA_POST_DATA+uniqueID);
-                        String base64auth     =  OPGNetworkRequest.getBase64Auth(mContext);
+                        String base64auth = OPGNetworkRequest.getBase64Auth(mContext);
                         String response = OPGNetworkRequest.uploadMediaRequest(mContext,mediaRoute,base64auth,mediaFilePath,null,0);
                         if(response.contains(OPGSDKConstant.UNIQUE_ID_ERROR))
                         {
@@ -992,25 +965,16 @@ class OPGRoot
                 builder.append(OPGSDKConstant.CAUSED_BY);
                 if (!validateString(username_auth))
                 {
-                    //System.out.println("Username");
                     builder.append(ERROR_NULL_ADMIN_NAME).append(NEW_LINE);
                 }
 
                 if (!validateString(sharedkey_auth))
                 {
-                    //System.out.println("sharedkey");
                     builder.append(ERROR_NULL_SHARED_KEY).append(NEW_LINE);
                 }
 
-			/*if (!validateString(uniqueID))
-			{
-				//System.out.println("uniqueid");
-				builder.append("Null or empty values for uniqueid.").append(NEW_LINE);
-			}*/
-
                 if (!validateString(mediaFilePath))
                 {
-                    //System.out.println("mediapath");
                     builder.append(OPGSDKConstant.ERROR_NULL_MEDIA_PATH).append(NEW_LINE);
                 }
                 throw  new OPGException(builder.toString());
@@ -1073,13 +1037,11 @@ class OPGRoot
 
                 if (!validateString(mediaID))
                 {
-                    //System.out.println("mediapath");
                     builder.append(OPGSDKConstant.ERROR_NULL_MEDIA_PATH).append(NEW_LINE);
                 }
 
                 if (!validateString(mediaType))
                 {
-                    //System.out.println("mediapath");
                     builder.append(ERROR_NULL_MEDIA_TYPE).append(NEW_LINE);
                 }
                 opgDownloadMedia.setSuccess(false);
@@ -1128,18 +1090,6 @@ class OPGRoot
     protected void logout(Context context)
     {
         OPGPreference.clearOPGPreference(context);
-    }
-
-    public OPGUploadResult uploadAllResults(Context context, OPGUploadProgress uploadProgress)
-    {
-        OPGUploadResult result = new OPGUploadResult();
-
-        return  result;
-    }
-
-    public OPGUploadResult uploadResults(Context context, String surveyID, String panelID,String panellistID,OPGUploadProgress uploadProgress)
-    {
-        return new OPGUploadResult();
     }
 
     /**
@@ -1386,7 +1336,6 @@ class OPGRoot
         }
         catch (Exception exception)
         {
-            //Log.i(OPGRoot.class.getName(),exception.getMessage());
             throw new OPGException(exception.getMessage());
         }
         return opgCountries;
@@ -1426,7 +1375,7 @@ class OPGRoot
      * @throws OPGException
      */
     protected void stopGeofencingMonitor(final Context mContext, GoogleApiClient googleApiClient, final OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) throws OPGException {
-        OPGGeofenceMonitor.getInstance().stopGeofencingMonitor(mContext,googleApiClient, opgGeofenceTriggerEvents);
+        OPGGeofenceMonitor.getInstance().stopGeofencingMonitor(mContext, googleApiClient, opgGeofenceTriggerEvents);
     }
 
 
@@ -1436,16 +1385,6 @@ class OPGRoot
 
     public void setOpgGeofenceTriggerEvents(OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) {
         OPGGeofenceMonitor.getInstance().setOpgGeofenceTriggerEvents(opgGeofenceTriggerEvents);
-    }
-
-    public int getSurveyTakenCount(Context context,long surveyId, long panelID, long panelistID)
-    {
-        return 0;
-    }
-
-    public boolean isSurveyResultsPresent(Context context)
-    {
-        return false;
     }
 
     protected HashMap<String,String> getThemesForPanel(Context context, long panelThemeTemplateID, List<OPGTheme> opgThemes)
@@ -1460,7 +1399,6 @@ class OPGRoot
         }
         return hashMap;
     }
-
 
 }
 

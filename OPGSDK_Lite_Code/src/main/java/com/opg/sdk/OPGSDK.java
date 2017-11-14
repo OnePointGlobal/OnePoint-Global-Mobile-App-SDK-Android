@@ -14,17 +14,13 @@ import com.opg.sdk.models.OPGForgotPassword;
 import com.opg.sdk.models.OPGGeofenceSurvey;
 import com.opg.sdk.models.OPGPanellistPanel;
 import com.opg.sdk.models.OPGPanellistProfile;
-import com.opg.sdk.models.OPGScript;
 import com.opg.sdk.models.OPGSurvey;
 import com.opg.sdk.models.OPGTheme;
 import com.opg.sdk.models.OPGUpdatePanellistProfile;
-import com.opg.sdk.models.OPGUploadResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.opg.sdk.OPGSDKConstant.EMPTY_STRING;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -49,15 +45,6 @@ import static com.opg.sdk.OPGSDKConstant.EMPTY_STRING;
 @DoNotRename
 public class OPGSDK
 {
-    /**
-     * returns whether SDK is full or lite.
-     * @return boolean
-     */
-    @DoNotRename
-    public static boolean isLiteSDK()
-    {
-        return true;
-    }
 
     /**
      * It is mandatory to initialize the SDK at app launch. The initialize API
@@ -89,6 +76,16 @@ public class OPGSDK
     public static OPGDownloadMedia downloadMediaFile(Context context, String mediaID, String mediaType)
     {
         return OPGRoot.getInstance().downloadMediaFile(context, mediaID, mediaType);
+    }
+
+    @DoNotRename
+    public static List<OPGGeofenceSurvey> getOPGGeofenceSurveys(Context context) {
+        return OPGRoot.getInstance().getOpgGeofenceSurveyList(context);
+    }
+
+    @DoNotRename
+    public static void setOPGGeofenceSurveys(Context context, List<OPGGeofenceSurvey> opgGeofenceSurveyList) {
+        OPGRoot.getInstance().setOpgGeofenceSurveyList(context, opgGeofenceSurveyList);
     }
 
     /**
@@ -264,90 +261,6 @@ public class OPGSDK
     }
 
     /**
-     * This method downloads the script file of a survey, taking SurveyReference  and Context as input
-     * parameters.
-     * SurveyReference is property of OPGSurvey object.
-     * @param context The Context
-     * @param surveyReference The surveyReference for particular OPGSurvey
-     * @return OPGScript object
-     */
-    @DoNotRename
-    public OPGScript getScript(Context context, String surveyReference)
-    {
-        if(OPGSDK.isLiteSDK())
-        {
-           // Toast.makeText(context,context.getString(R.string.msg_sdk_lite),Toast.LENGTH_SHORT).show();
-            return null;
-        }else{
-            return OPGRoot.getInstance().getScript(context, surveyReference);
-        }
-    }
-
-    @DoNotRename
-    public void getScript(Context context, String surveyReference, OPGProgressUpdateInterface opgProgressUpdateInterface)
-    {
-        if(OPGSDK.isLiteSDK())
-        {
-            //Toast.makeText(context,context.getString(R.string.msg_sdk_lite),Toast.LENGTH_SHORT).show();
-        }else{
-            OPGRoot.getInstance().getScript(context,surveyReference, opgProgressUpdateInterface);
-        }
-    }
-
-/**
- * This method takes Context as input parameter and returns  list of  OPGPanelPanelist object.
- * It throws OPGException.
- * @param context The Context
- * @return The list of OPGPanelPanelist object
- * @throws Exception
- */
-
-/*@DoNotRename
-public List<OPGPanelPanelist> getPanelPanelist(Context context) throws Exception
-{
-    return OPGRoot.getInstance().getPanelPanlist(context);
-}*/
-
-/**
- * This method takes Context as input parameter and returns the list  of OPGPanel objects.
- * It throws OPGException.
- * @param context The Context
- * @return List<OPGPanel> The list of OPGPanel objects
- * @throws OPGException
- */
-/*@DoNotRename
-public List<OPGPanel> getPanels(Context context) throws OPGException
-{
-    return OPGRoot.getInstance().getPanels(context);
-}*/
-
-/**
- * This method takes Context as input parameter and returns the list of OPGTheme objects.
- * It throws OPGException.
- * @param context The Context
- * @return List<OPGTheme>  The list of OPGTheme objects
- * @throws OPGException
- */
-/*@DoNotRename
-public List<OPGTheme> getThemes(Context context) throws OPGException
-{
-    return OPGRoot.getInstance().getThemes(context);
-}*/
-
-/**
- * This method takes Context as input parameter and returns an array of OPGSurveyPanel objects.
- * It throws OPGException.
- * @param context The Context
- * @return List<OPGSurveyPanel> The list of OPGSurveyPanel object
- * @throws OPGException
- */
-/*@DoNotRename
-public List<OPGSurveyPanel> getSurveyPanels(Context context) throws OPGException
-{
-    return OPGRoot.getInstance().getSurveyPanels(context);
-}*/
-
-    /**
      * This method update the profile of panelist.
      * This method takes an OPGPanelistProfile object and Context as input parameters and returns the
      * OPGUpdatePanelistProfile object.
@@ -390,12 +303,6 @@ public List<OPGSurveyPanel> getSurveyPanels(Context context) throws OPGException
     {
         OPGRoot.getInstance().logout(context);
     }
-
-    /* @DoNotRename
-     public void  uploadResults(Context context,String surveyReference,String panelistID)
-     {
-     OPGRoot.getInstance().uploadResults(context,surveyReference,panelistID);
-     }*/
 
     /**
       * This method takes a device token ID and Context as input parameters and returns the String value to register
@@ -461,7 +368,6 @@ public List<OPGSurveyPanel> getSurveyPanels(Context context) throws OPGException
         return OPGRoot.getInstance().getGeofenceSurveys(context,latitude,longitude);
     }
 
-
     /**
      * This method is used to start monitoring based on the given OPGGeofenceSurveys list.
      * And it gives the status of the monitoring in the callback onResult()
@@ -493,85 +399,8 @@ public List<OPGSurveyPanel> getSurveyPanels(Context context) throws OPGException
         OPGRoot.getInstance().stopGeofencingMonitor(mContext,googleApiClient,opgGeofenceTriggerEvents);
     }
 
-
     public OPGGeofenceTriggerEvents getOpgGeofenceTriggerEvents(){
         return OPGRoot.getInstance().getOpgGeofenceTriggerEvents();
-    }
-
-    /**
-     * This method will upload the offline survey results for particular panelist.
-     * @param context
-     * @param surveyId
-     * @param panelID
-     * @param panelistID
-     */
-    @DoNotRename
-    public OPGUploadResult uploadSurveyResults(Context context, long surveyId,long panelID, long panelistID, OPGUploadProgress opgUploadProgress)
-    {
-        if(OPGSDK.isLiteSDK())
-        {
-          //  Toast.makeText(context,context.getString(R.string.msg_sdk_lite),Toast.LENGTH_SHORT).show();
-            return null;
-        }else{
-            return OPGRoot.getInstance().uploadResults(context,surveyId+EMPTY_STRING,panelID+EMPTY_STRING,panelistID+EMPTY_STRING,opgUploadProgress);
-        }
-
-    }
-
-    /**
-     * This  will upload all results present in SDCard.
-     * @param context
-     * @param opgUploadProgress
-     */
-    @DoNotRename
-    public void uploadAllResults(Context context,OPGUploadProgress opgUploadProgress)
-    {
-
-        if(OPGSDK.isLiteSDK())
-        {
-          //  Toast.makeText(context,context.getString(R.string.msg_sdk_lite),Toast.LENGTH_SHORT).show();
-        }else{
-            OPGRoot.getInstance().uploadAllResults(context,opgUploadProgress);
-        }
-    }
-
-    /**
-     * This method return the number of time survey taken
-     * @param surveyId
-     * @param panelID
-     * @param panelistID
-     * @return
-     */
-    @DoNotRename
-    public int getSurveyTakenCount(Context context,long surveyId,long panelID, long panelistID)
-    {
-        if(OPGSDK.isLiteSDK())
-        {
-            //Toast.makeText(context,context.getString(R.string.msg_sdk_lite),Toast.LENGTH_SHORT).show();
-            return 0;
-        }else{
-            return  OPGRoot.getInstance().getSurveyTakenCount(context,surveyId,panelID,panelistID);
-        }
-    }
-
-    /**
-     * Checks whether any result is present or not.
-     * @return
-     */
-    @DoNotRename
-    public boolean isSurveyResultsPresent(Context context)
-    {
-        return  OPGRoot.getInstance().isSurveyResultsPresent(context);
-    }
-
-    @DoNotRename
-    public static List<OPGGeofenceSurvey> getOPGGeofenceSurveys(Context context){
-        return OPGRoot.getInstance().getOpgGeofenceSurveyList(context);
-    }
-
-    @DoNotRename
-    public static void setOPGGeofenceSurveys(Context context , List<OPGGeofenceSurvey> opgGeofenceSurveyList){
-        OPGRoot.getInstance().setOpgGeofenceSurveyList(context,opgGeofenceSurveyList);
     }
 
     /**
