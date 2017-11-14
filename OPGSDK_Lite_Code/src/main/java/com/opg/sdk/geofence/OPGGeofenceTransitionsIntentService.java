@@ -11,8 +11,10 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.gson.Gson;
 import com.opg.sdk.BuildConfig;
+import com.opg.sdk.OPGPreference;
 import com.opg.sdk.OPGR;
 import com.opg.sdk.OPGSDKConstant;
+import com.opg.sdk.R;
 import com.opg.sdk.models.OPGGeofenceSurvey;
 
 import java.util.ArrayList;
@@ -38,17 +40,15 @@ import static com.opg.sdk.OPGSDKConstant.UNKNOWN_GEOFENCE_TRANSITION_KEY;
 public class OPGGeofenceTransitionsIntentService extends IntentService {
 
     protected static final String TAG = "GeofenceTransitionsIS";
+    private com.opg.sdk.OPGSDK opgsdk;
     @DoNotRename
     public String BROADCAST_GEOFENCE_TRANSITION_ENTER  = ".transition.enter";
     @DoNotRename
     public String BROADCAST_GEOFENCE_TRANSITION_EXIT   = ".transition.exit";
     @DoNotRename
     public String BROADCAST_GEOFENCE_TRANSITION_DWELL  = ".transition.dwell";
+
     private Context context;
-
-
-    private com.opg.sdk.OPGSDK opgsdk;
-
 
     public OPGGeofenceTransitionsIntentService() {
         super(OPGGeofenceTransitionsIntentService.class.getName());
@@ -83,7 +83,7 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
 
         // Test that the reported transition was of interest.
         if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                    geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
+                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
             Intent broadcastIntent = new Intent();
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             List<Geofence> triggeringGeofences            = (ArrayList<Geofence>) geofencingEvent.getTriggeringGeofences();
@@ -144,10 +144,20 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
         OPGWakefulReceiver.completeWakefulIntent(intent);
     }
 
+
+//    private ArrayList<String> getRequestIds(List<Geofence> geofenceList){
+//        ArrayList<String> geofenceIds = new ArrayList<>();
+//        for (Geofence geofence:geofenceList){
+//            geofenceIds.add(geofence.getRequestId());
+//        }
+//        return geofenceIds;
+//    }
+
     private String convertOPGObjectsToString(List<OPGGeofenceSurvey> opgGeofenceSurveys){
         Gson gson = new Gson();
         return gson.toJson(opgGeofenceSurveys);
     }
+
 
     private List<OPGGeofenceSurvey> convertGeofenceToOPGObject(Context context, List<Geofence> triggeredGeofences){
         List<OPGGeofenceSurvey> triggeredOPGGeofenceSurveys = new ArrayList<>();
@@ -170,7 +180,6 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
         }
         return triggeredOPGGeofenceSurveys;
     }
-
     /**
      * Gets transition details and returns them as a formatted string.
      *
@@ -214,5 +223,10 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
                 return OPGR.getString(getApplicationContext(),STRING,UNKNOWN_GEOFENCE_TRANSITION_KEY);
         }
     }
+
+    /*public String GEOFENCE_TRANSITION_ENTERED  = "com.opg.sdk.transition.enter";
+    public String GEOFENCE_TRANSITION_EXITED  = "com.opg.sdk.transition.exit";
+    public String GEOFENCE_TRANSITION_DWELL  = "com.opg.sdk.transition.dwell";
+    public String UNKNOWN_GEOFENCE_TRANSITION  = "com.opg.sdk.transition.unknown";*/
 
 }
