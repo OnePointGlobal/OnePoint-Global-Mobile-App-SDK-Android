@@ -1,7 +1,6 @@
-package com.opg.my.surveys.plugins;
+package **************;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,8 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.allatori.annotations.DoNotRename;
-import com.opg.my.surveys.R;
+import **********.R;
 import com.opg.sdk.BuildConfig;
 
 import org.apache.cordova.CallbackContext;
@@ -25,7 +23,6 @@ import org.json.JSONException;
 import OnePoint.CordovaPlugin.RootPlugin;
 import OnePoint.CordovaPlugin.Utils.FileUtils;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -44,7 +41,7 @@ public class SignaturePlugin extends RootPlugin {
     private CallbackContext callback;
     Context context;
     int REQUEST_CODE = 122;
-    private static final String SIGNATURE_INTENT = "com.opg.my.surveys.SIGNATURE";
+    private static final String SIGNATURE_INTENT = "*******";
     private static final String CATEGORY_DEFAULT = Intent.CATEGORY_DEFAULT;
     private String [] permissions = { READ_EXTRENAL_STORAGE_PERMISSION,WRITE_EXTRENAL_STORAGE_PERMISSION };
 
@@ -99,15 +96,6 @@ public class SignaturePlugin extends RootPlugin {
             Toast.makeText(this.cordova.getActivity(),"Failed to capture the signature request.Please try again.",Toast.LENGTH_LONG).show();
     }
 
-   /* private JSONObject getErrorJsonObject(String message){
-        JSONObject errJsonObj = new JSONObject();
-        try{
-            errJsonObj.put(MESSAGE,message);
-        }catch (JSONException ex){
-            ex.printStackTrace();
-        }
-        return errJsonObj;
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -117,16 +105,7 @@ public class SignaturePlugin extends RootPlugin {
                 if(data.hasExtra("imagePath")){
                     sendResponse(data.getStringExtra("imagePath"));
                 }
-            }/*else if( data != null && resultCode == RESULT_CANCELED){
-                Toast.makeText(this.cordova.getActivity(),"Cancelled the signature request",Toast.LENGTH_LONG).show();
-                if(callback!= null)
-                    callback.error(getErrorJsonObject("Cancelled the signature request"));
-            }else {
-                if(callback!= null)
-                    this.callback.error("Unexpected error");
-                else
-                   Toast.makeText(this.cordova.getActivity(),"Cancelled the signature request",Toast.LENGTH_LONG).show();
-            }*/
+            }
         }
     }
 
@@ -145,7 +124,6 @@ public class SignaturePlugin extends RootPlugin {
      * @param permissions The collection of permissions
      * @param grantResults The result of grant
      */
-    @DoNotRename
     public void onRequestPermissionResult(int requestCode, String[] permissions,
                                           int[] grantResults) throws JSONException
     {
