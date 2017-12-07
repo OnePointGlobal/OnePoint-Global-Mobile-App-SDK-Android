@@ -268,5 +268,9 @@ MySurveys
             name="android-package"
             value="OnePoint.CordovaPlugin.GeoFencingPlugin" />
     </feature>
-
+    <feature name="SignaturePlugin" >
+        <param
+            name="android-package"
+            value="com.opg.my.surveys.plugins.SignaturePlugin" />
+    </feature>
 </widget>
