@@ -152,7 +152,8 @@ class OPGGeofenceMonitor {
             for (OPGGeofenceSurvey entry : opgGeofenceSurveyList) {
                 stringBuilder.setLength(0);
                 stringBuilder.append(entry.getSurveyReference()).append(HYPHEN).append(entry.getLatitude()).append(HYPHEN).append(entry.getLongitude());
-                geofenceList.add(new Geofence.Builder()
+
+                Geofence.Builder geofenceBuilder = new Geofence.Builder()
                         // Set the request ID of the geofence. This is a string to identify this
                         // geofence.and the max length should be 100 characters
                         .setRequestId(stringBuilder.toString())
@@ -165,15 +166,39 @@ class OPGGeofenceMonitor {
 
                         // Set the expiration duration of the geofence. This geofence gets automatically
                         // removed after this period of time.
-                        .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                        .setExpirationDuration(Geofence.NEVER_EXPIRE);
 
-                        // Set the transition types of interest. Alerts are only generated for these
-                        // transition. We track entry and exit transitions in this sample.
-                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                                Geofence.GEOFENCE_TRANSITION_EXIT)
 
-                        // Create the geofence.
-                        .build());
+
+                if(entry.getTimeInterval() > 0 && entry.isEnter() && entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL /*| Geofence.GEOFENCE_TRANSITION_EXIT*/ ).setLoiteringDelay(entry.getTimeInterval()*60*1000);
+                }
+                else if(entry.getTimeInterval()>0 && entry.isEnter() && !entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT).setLoiteringDelay(entry.getTimeInterval()*60*1000);
+                }
+                else if(entry.getTimeInterval()>0 && !entry.isEnter() && entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT).setLoiteringDelay(entry.getTimeInterval()*60*1000);
+                }
+                else if(entry.getTimeInterval() == 0 && entry.isEnter() && entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER /*| Geofence.GEOFENCE_TRANSITION_EXIT*/);
+                }
+                else if(entry.getTimeInterval() == 0 && entry.isEnter() && !entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
+                }
+                else if(entry.getTimeInterval() == 0 && !entry.isEnter() && entry.isExit())
+                {
+                    geofenceBuilder.setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT);
+                }
+                else
+                {
+                    geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER );
+                }
+                geofenceList.add(geofenceBuilder.build());
             }
         }
 
@@ -228,7 +253,7 @@ class OPGGeofenceMonitor {
      */
     private GeofencingRequest getGeofencingRequest(List<Geofence> geofenceList) {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER |GeofencingRequest.INITIAL_TRIGGER_DWELL);
         builder.addGeofences(geofenceList);
         return builder.build();
     }

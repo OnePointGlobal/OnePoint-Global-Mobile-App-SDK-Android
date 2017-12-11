@@ -54,8 +54,8 @@ public interface OPGGeofenceTriggerEvents {
      * @param regionExited
      * @param opgGeofenceList
      */
-    @DoNotRename
-    void didDwellSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
+   // @DoNotRename
+    //void didDwellSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
 
 
 }

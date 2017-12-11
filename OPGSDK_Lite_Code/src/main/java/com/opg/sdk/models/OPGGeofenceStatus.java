@@ -29,7 +29,7 @@ public class OPGGeofenceStatus implements Parcelable{
     }
 
     protected OPGGeofenceStatus(Parcel in) {
-        isSuccess = in.readByte() != 0;
+        isMonitoring = in.readByte() != 0;
         isSuccess = in.readByte() != 0;
         message = in.readString();
     }

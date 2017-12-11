@@ -53,6 +53,17 @@ private String surveyName;
     private float distance;
     @SerializedName("Range")
     private long range;
+    @SerializedName("IsEntered")
+    private boolean isEntered;
+
+    @SerializedName("EnterEvent")
+    private boolean isEnter;
+
+    @SerializedName("ExitEvent")
+    private boolean isExit;
+    //The amount of time in minutes that the respondent must stay in a geofenced area to access the survey.
+    @SerializedName("EventTime")
+    private int timeInterval;
 
     public OPGGeofenceSurvey() {
     }
@@ -71,6 +82,10 @@ private String surveyName;
         range = in.readLong();
         createdDate = (Date) in.readSerializable();
         lastUpdatedDate = (Date) in.readSerializable();
+        isEntered = in.readByte() != 0 ;
+        isEnter = in.readByte() != 0;
+        isExit = in.readByte() != 0;;
+        timeInterval = in.readInt();
     }
 
 @DoNotRename
@@ -207,6 +222,54 @@ public void setSurveyName(String surveyName) {
     public int describeContents() {
         return 0;
     }
+    @DoNotRename
+    public boolean isEntered() {
+        return isEntered;
+    }
+    /**
+     *  returns true if geofence type is EnterType otherwise false.
+     * @return boolean
+     */
+    @DoNotRename
+    public boolean isEnter() {
+        return isEnter;
+    }
+    /**
+     *  returns true if geofence type is ExitType otherwise false.
+     * @return boolean
+     */
+    @DoNotRename
+    public boolean isExit() {
+        return isExit;
+    }
+    /**
+     *  returns The amount of time in minutes that the respondent must stay in a geofenced area to access the survey.
+     * @return int
+     */
+    @DoNotRename
+    public int getTimeInterval() {
+        return timeInterval;
+    }
+
+    @DoNotRename
+    public void setEntered(boolean entered) {
+        isEntered = entered;
+    }
+
+    @DoNotRename
+    public void setEnter(boolean enter) {
+        isEnter = enter;
+    }
+
+    @DoNotRename
+    public void setExit(boolean exit) {
+        isExit = exit;
+    }
+
+    @DoNotRename
+    public void setTimeInterval(int timeInterval) {
+        this.timeInterval = timeInterval;
+    }
 
     @Override@DoNotRename
     public void writeToParcel(Parcel parcel, int i) {
@@ -223,5 +286,9 @@ public void setSurveyName(String surveyName) {
         parcel.writeLong(range);
         parcel.writeSerializable(createdDate);
         parcel.writeSerializable(lastUpdatedDate);
+        parcel.writeByte((byte) (isEntered ? 1 : 0));
+        parcel.writeByte((byte) (isEnter ? 1 : 0));
+        parcel.writeByte((byte) (isExit ? 1 : 0));
+        parcel.writeInt(timeInterval);
     }
 }
