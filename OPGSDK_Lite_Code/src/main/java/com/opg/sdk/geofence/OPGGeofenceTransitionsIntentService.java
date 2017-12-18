@@ -113,9 +113,11 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
 
             if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL){
                 if(opgsdk.getOpgGeofenceTriggerEvents() != null) {
-                    opgsdk.getOpgGeofenceTriggerEvents().didDwellSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
+                    //opgsdk.getOpgGeofenceTriggerEvents().didDwellSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
+                    opgsdk.getOpgGeofenceTriggerEvents().didEnterSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
                 }
-                broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_DWELL);
+                //broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_DWELL);
+                broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_ENTER);
             }
 
             broadcastIntent.putExtra(OPGSDKConstant.LATITUDE,geofencingEvent.getTriggeringLocation().getLatitude());
