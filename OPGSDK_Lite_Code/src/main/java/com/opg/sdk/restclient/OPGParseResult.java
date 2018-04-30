@@ -249,7 +249,10 @@ public class OPGParseResult
                 Type listType = new TypeToken<List<OPGSurvey>>()
                 {
                 }.getType();
-                surveyList =  gson.fromJson(surveyListResponse, listType);
+               List<OPGSurvey> tempList =  gson.fromJson(surveyListResponse, listType);
+               if(tempList!=null){
+                   surveyList = filterOnlineSurveys(tempList);
+               }
             }
             else
             {
@@ -265,6 +268,21 @@ public class OPGParseResult
             throw new OPGException(OPGSDKConstant.ERROR_THEME);
         }
         return surveyList;
+    }
+
+    /**
+     * This method is to filter all the offline surveys and give only the online surveys
+     * @param tempList
+     * @return
+     */
+    private static List<OPGSurvey> filterOnlineSurveys(List<OPGSurvey> tempList) {
+        List<OPGSurvey> newOpgSurveys = new ArrayList<>();
+        for (OPGSurvey opgSurvey:tempList){
+            if (!opgSurvey.isOffline()){
+                newOpgSurveys.add(opgSurvey);
+            }
+        }
+        return newOpgSurveys;
     }
 
 
