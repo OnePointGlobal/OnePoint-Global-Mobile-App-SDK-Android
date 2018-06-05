@@ -83,7 +83,14 @@ public class OPGPreference
     // for storing String Value
     private static synchronized void setProperty(final Context context, final String name, final String value)
     {
-        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().putString(name, value).apply();
+        if(context != null)
+        {
+            try {
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit().putString(name, Aes256.encrypt(AESKey.getKey(),value)).apply();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static synchronized String getProperty(final Context context, final String name, final String defaultValue)
@@ -98,7 +105,7 @@ public class OPGPreference
             }
             else
             {
-                return value;
+                return Aes256.decrypt(AESKey.getKey(),value);
             }
         }
         catch (final Exception e)
@@ -459,5 +466,12 @@ public class OPGPreference
     public static void setIsSurveyLoadingFirstTime(Context context,boolean isSurveyLoadingFirstTime)
     {
         setProperty(context, IS_SURVEY_LOADING_FIRST_TIME,isSurveyLoadingFirstTime);
+    }
+
+    private static class AESKey{
+        private final static String getKey(){
+            String KEY = "Enter your own key";
+            return KEY;
+        }
     }
 }
