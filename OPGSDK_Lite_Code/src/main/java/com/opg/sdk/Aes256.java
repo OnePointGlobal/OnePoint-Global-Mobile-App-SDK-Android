@@ -68,150 +68,172 @@ public class Aes256 {
                return decrypt(Base64ConvertedKey(), Base64ConvertedArray(secureText));
        }
 
-       // Return decrypted bytes as a string
-       /**
-        * Encrypts a string with AES algorithm
-        *
-        * @param plainText
-        *            String to encrypt
-        *
-        * @return Encrypted string with IV prefix
-        */
-       public static String encrypt(String plainText) throws Exception {
-               return encrypt(Base64ConvertedKey(), getByteInLittleIndian(plainText));
-       }
+    /**
+     * Decrypts a string with AES algorithm
+     * @param key algorithm key with which the encryption happen
+     * @param secureText
+     * @return Decrypted string
+     * @throws Exception
+     */
+    public static String decrypt(String key,String secureText) throws Exception {
+        return decrypt(Base64ConvertedArray(key), Base64ConvertedArray(secureText));
+    }
 
-       /** Encryption Operation done inside here */
-       @SuppressLint("TrulyRandom")
-       public static String encrypt(byte[] keybytes, byte[] data) throws Exception {
-               SecretKeySpec skeySpec = new SecretKeySpec(keybytes, AES);
-               Cipher cipher = Cipher.getInstance(CIPHER_KEY);
+    // Return decrypted bytes as a string
+    /**
+     * Encrypts a string with AES algorithm
+     *
+     * @param plainText
+     *            String to encrypt
+     *
+     * @return Encrypted string with IV prefix
+     */
+    public static String encrypt(String plainText) throws Exception {
+        return encrypt(Base64ConvertedKey(), getByteInLittleIndian(plainText));
+    }
 
-               /** To get the Random 16 Byte IV */
-               byte[] iv = generateIv();
-               IvParameterSpec ivspec = new IvParameterSpec(iv);
-               cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec);
-               byte[] encrypted = cipher.doFinal(data);
+    /**
+     * Return decrypted bytes as a string
+     * @param key algorithm key with which the encryption happen
+     * @param plainText String to encrypt
+     * @return Encrypted string with IV prefix
+     * @throws Exception
+     */
+    public static String encrypt(String key, String plainText) throws Exception {
+        return encrypt(Base64ConvertedArray(key), getByteInLittleIndian(plainText));
+    }
 
-               /** Appending IV before the encrypted */
-               byte[] finalData = concatenateByteArrays(ivspec.getIV(), encrypted);
+    /** Encryption Operation done inside here */
+    @SuppressLint("TrulyRandom")
+    public static String encrypt(byte[] keybytes, byte[] data) throws Exception {
+        SecretKeySpec skeySpec = new SecretKeySpec(keybytes, AES);
+        Cipher cipher = Cipher.getInstance(CIPHER_KEY);
 
-               /** Converting the byte array into the MyBase 64 */
-               return Base64.encodeToString(finalData, 0);
-       }
+        /** To get the Random 16 Byte IV */
+        byte[] iv = generateIv();
+        IvParameterSpec ivspec = new IvParameterSpec(iv);
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec);
+        byte[] encrypted = cipher.doFinal(data);
 
-       /** Decryption Operation done inside here */
-       public static String decrypt(byte[] keybytes, byte[] encrypted)
-       throws Exception {
-               SecretKeySpec skeySpec = new SecretKeySpec(keybytes, AES);
-               byte[] temp = encrypted;
-               byte[] getIv = new byte[16];
-               byte[] cipherByte = new byte[temp.length - 16];
+        /** Appending IV before the encrypted */
+        byte[] finalData = concatenateByteArrays(ivspec.getIV(), encrypted);
 
-               /** Getting the 16 Byte Iv from the encrypted string */
-               System.arraycopy(temp, 0, getIv, 0, getIv.length);
+        /** Converting the byte array into the MyBase 64 */
+        return Base64.encodeToString(finalData, 0);
+    }
 
-               /** Getting the encrypted Byte is to decrypt */
-               System.arraycopy(temp, 16, cipherByte, 0, temp.length - 16);
+    /** Decryption Operation done inside here */
+    public static String decrypt(byte[] keybytes, byte[] encrypted)
+            throws Exception {
+        SecretKeySpec skeySpec = new SecretKeySpec(keybytes, AES);
+        byte[] temp = encrypted;
+        byte[] getIv = new byte[16];
+        byte[] cipherByte = new byte[temp.length - 16];
 
-               IvParameterSpec ivspec = new IvParameterSpec(getIv);
-               Cipher cipher = Cipher.getInstance(CIPHER_KEY);
-               cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec);
-               byte[] decrypted = cipher.doFinal(cipherByte);
+        /** Getting the 16 Byte Iv from the encrypted string */
+        System.arraycopy(temp, 0, getIv, 0, getIv.length);
 
-               /** returning the Unicode String */
-               return new String(decrypted, UTF_16LE);
-       }
+        /** Getting the encrypted Byte is to decrypt */
+        System.arraycopy(temp, 16, cipherByte, 0, temp.length - 16);
 
-       /** Returning the Random IV of 16 Byte */
-       protected static byte[] generateIv() throws NoSuchAlgorithmException {
-               Random ranGen = new SecureRandom();
-               byte[] aesKey = new byte[16]; // 16 bytes = 128 bits
-               ranGen.nextBytes(aesKey);
-               return aesKey;
-       }
+        IvParameterSpec ivspec = new IvParameterSpec(getIv);
+        Cipher cipher = Cipher.getInstance(CIPHER_KEY);
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec);
+        byte[] decrypted = cipher.doFinal(cipherByte);
 
-       /** Appending IV before the Encrypted Data */
-       protected static byte[] concatenateByteArrays(byte[] IV, byte[] encrypted) {
-               byte[] result = new byte[IV.length + encrypted.length];
-               System.arraycopy(IV, 0, result, 0, IV.length);
-               System.arraycopy(encrypted, 0, result, IV.length, encrypted.length);
-               return result;
-       }
+        /** returning the Unicode String */
+        return new String(decrypted, UTF_16LE);
+    }
 
-       public static byte[] getByteInLittleIndian(String litInd)
-       throws UnsupportedEncodingException {
-               return litInd.getBytes(UTF_16LE);
-       }
+    /** Returning the Random IV of 16 Byte */
+    protected static byte[] generateIv() throws NoSuchAlgorithmException {
+        Random ranGen = new SecureRandom();
+        byte[] aesKey = new byte[16]; // 16 bytes = 128 bits
+        ranGen.nextBytes(aesKey);
+        return aesKey;
+    }
 
-       public static byte[] getByteInUTF8(String litInd)
-       throws UnsupportedEncodingException {
-               return litInd.getBytes(UTF_8);
-       }
+    /** Appending IV before the Encrypted Data */
+    protected static byte[] concatenateByteArrays(byte[] IV, byte[] encrypted) {
+        byte[] result = new byte[IV.length + encrypted.length];
+        System.arraycopy(IV, 0, result, 0, IV.length);
+        System.arraycopy(encrypted, 0, result, IV.length, encrypted.length);
+        return result;
+    }
 
-       public static String getStringInLittleIndian(byte[] litInd)
-       throws UnsupportedEncodingException {
-               return new String(litInd, UTF_16LE);
-       }
+    public static byte[] getByteInLittleIndian(String litInd)
+            throws UnsupportedEncodingException {
+        return litInd.getBytes(UTF_16LE);
+    }
 
-       public static byte[] Base64ConvertedKey() {
-               return Base64.decode(AESKey.getKey(), 0);
-       }
+    public static byte[] getByteInUTF8(String litInd)
+            throws UnsupportedEncodingException {
+        return litInd.getBytes(UTF_8);
+    }
 
-       public static byte[] Base64ConvertedArray(String toConvert) {
-               return Base64.decode(toConvert, 0);
-       }
+    public static String getStringInLittleIndian(byte[] litInd)
+            throws UnsupportedEncodingException {
+        return new String(litInd, UTF_16LE);
+    }
 
-       public static String getMediaBundle(String sessionId, String mediaid,
-                       String mediatype) throws Exception {
-               return encryptedString(METHOD_GET_MEDIA_SESSION_ID + sessionId + MEDIA_ID_EQUAL + mediaid + MEDIA_TYPE_EQUAL + mediatype
-                               + WIDTH_100_HEIGHT_100);
-       }
+    public static byte[] Base64ConvertedKey() {
+        return Base64.decode(AESKey.getKey(), 0);
+    }
 
-       public static String getMediaBundleForImage(String sessionId,
-                       String mediaid, String mediatype, int width, int hieght)
-       throws Exception {
-               return encryptedString(METHOD_GET_MEDIA_SESSION_ID + sessionId
-                               + MEDIA_ID_EQUAL + mediaid + MEDIA_TYPE_EQUAL + mediatype + WIDTH_EQUAL
-                               + width + HEIGHT_EQUAL+ hieght + EMPTY_STRING);
-       }
+    public static byte[] Base64ConvertedArray(String toConvert) {
+        return Base64.decode(toConvert, 0);
+    }
 
-       public static String encryptedString(String jsonasString) {
-               String encrypted = null;
-               try {
-                       encrypted = encrypt(Base64ConvertedKey(),
-                                       getByteInLittleIndian(jsonasString));
-               } catch (UnsupportedEncodingException e) {
-                       e.printStackTrace();
-               } catch (Exception e) {
-                       e.printStackTrace();
-               }
-               return encrypted;
-       }
+    public static String getMediaBundle(String sessionId, String mediaid,
+                                        String mediatype) throws Exception {
+        return encryptedString(METHOD_GET_MEDIA_SESSION_ID + sessionId + MEDIA_ID_EQUAL + mediaid + MEDIA_TYPE_EQUAL + mediatype
+                + WIDTH_100_HEIGHT_100);
+    }
 
-       public static String convertintoMD5(String value) {
-               MessageDigest m = null;
-               try {
-                       m = MessageDigest.getInstance(MD5);
-               } catch (NoSuchAlgorithmException e) {
-               }
-               m.reset();
-               m.update(value.getBytes());
-               byte[] digest = m.digest();
-               BigInteger bigInt = new BigInteger(1, digest);
-               String hashtext = bigInt.toString(16);
-               while (hashtext.length() < 32) {
-                       hashtext = ZERO + hashtext;
-               }
-               return hashtext;
-       }
+    public static String getMediaBundleForImage(String sessionId,
+                                                String mediaid, String mediatype, int width, int hieght)
+            throws Exception {
+        return encryptedString(METHOD_GET_MEDIA_SESSION_ID + sessionId
+                + MEDIA_ID_EQUAL + mediaid + MEDIA_TYPE_EQUAL + mediatype + WIDTH_EQUAL
+                + width + HEIGHT_EQUAL+ hieght + EMPTY_STRING);
+    }
 
-       private static class AESKey{
+    public static String encryptedString(String jsonasString) {
+        String encrypted = null;
+        try {
+            encrypted = encrypt(Base64ConvertedKey(),
+                    getByteInLittleIndian(jsonasString));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encrypted;
+    }
 
-               private final static String getKey(){
-                        String KEY = "HiYNZFOI1S1biFnoiFFWZcPwWBnhxqhkQ1Ipyh2yG7U=";
-                        return KEY;
-               }
+    public static String convertintoMD5(String value) {
+        MessageDigest m = null;
+        try {
+            m = MessageDigest.getInstance(MD5);
+        } catch (NoSuchAlgorithmException e) {
+        }
+        m.reset();
+        m.update(value.getBytes());
+        byte[] digest = m.digest();
+        BigInteger bigInt = new BigInteger(1, digest);
+        String hashtext = bigInt.toString(16);
+        while (hashtext.length() < 32) {
+            hashtext = ZERO + hashtext;
+        }
+        return hashtext;
+    }
 
-       }
+    private static class AESKey{
+
+        private final static String getKey(){
+            String KEY = "HiYNZFOI1S1biFnoiFFWZcPwWBnhxqhkQ1Ipyh2yG7U=";
+            return KEY;
+        }
+
+    }
 }

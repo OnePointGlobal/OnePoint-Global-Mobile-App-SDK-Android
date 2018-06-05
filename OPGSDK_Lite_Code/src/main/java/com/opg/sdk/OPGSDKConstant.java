@@ -40,7 +40,7 @@ public class OPGSDKConstant
 
 
     /*Key Value pair for String used as argument*/
-              /*OPGNetworkRequest*/
+    /*OPGNetworkRequest*/
     public static final String POST = "POST";
     public static final String MEDIA_PROFILE_MEDIA = "Media/ProfileMedia";
     public static final String DATA = "Data";
@@ -248,6 +248,9 @@ public class OPGSDKConstant
     public static final String UTC = "UTC";
     public static final String T = "T";
     public static final String BLANK_SPACE = " ";
+    public static final String OPG_DATA = "OPGData";
+    public static final String OPG_PANELLIST_ID_DATA = "opgPanelListIdData";
+    public static final String TXT = "txt";
 
     /*FileUtils*/
     public static final String HTTP = "http://";
