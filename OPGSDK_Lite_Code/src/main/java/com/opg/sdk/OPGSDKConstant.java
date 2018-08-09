@@ -112,6 +112,8 @@ public class OPGSDKConstant
     public static final String USERNAME        = "UserName";
     public static final String PASSWORD        = "Password";
     public static final String APP_VERSION     = "AppVersion";
+    public static final String LANGUAGE        = "Language";
+    public static final String DEFAULT_LAN     = "en";
     public static final String SIGNIN_TIME_UTC = "SigninTimeUtc";
     public static final String EMAIL_ID        = "emailID";
     public static final String GoogleToken     = "GoogleToken";
