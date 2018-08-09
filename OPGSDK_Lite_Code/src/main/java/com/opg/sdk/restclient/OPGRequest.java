@@ -91,6 +91,7 @@ public class OPGRequest {
 		JSONObject forPasswordEntity = new JSONObject();
 		forPasswordEntity.put(OPGSDKConstant.EMAIL_ID, emailID);
 		forPasswordEntity.put(OPGSDKConstant.APP_VERSION, appVersion);
+		forPasswordEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
 		return forPasswordEntity;
 	}
 
@@ -109,6 +110,7 @@ public class OPGRequest {
 		changePwdEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		changePwdEntity.put(OPGSDKConstant.CURRENT_PASSWORD, getMd5Hash(currentPassword));
 		changePwdEntity.put(OPGSDKConstant.NEW_PASSWORD, getMd5Hash(newPassword));
+		changePwdEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
 		return changePwdEntity;
 	}
 
@@ -264,4 +266,12 @@ public class OPGRequest {
 		return surveyScriptEntity;
 	}
 
+	/**
+	 * To return the selected language code
+	 * @return
+	 */
+	public static String getDeviceLocaleCode(){
+		String[] locale = Locale.getDefault().toString().toLowerCase().split("_");
+		return ((locale!=null && locale.length>0)?locale[0]:DEFAULT_LAN);
+	}
 }
