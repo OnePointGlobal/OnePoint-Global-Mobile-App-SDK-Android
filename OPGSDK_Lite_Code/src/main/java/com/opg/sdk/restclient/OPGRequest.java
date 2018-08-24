@@ -1,5 +1,7 @@
 package com.opg.sdk.restclient;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.opg.sdk.OPGSDKConstant;
 import com.opg.sdk.models.OPGPanellistProfile;
@@ -10,6 +12,10 @@ import org.json.JSONObject;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
+
+import static com.opg.sdk.OPGSDKConstant.DEFAULT_LAN;
+import static com.opg.sdk.OPGSDKConstant.UNDERSCORE_KEY;
 
 public class OPGRequest {
 
@@ -92,6 +98,7 @@ public class OPGRequest {
 		forPasswordEntity.put(OPGSDKConstant.EMAIL_ID, emailID);
 		forPasswordEntity.put(OPGSDKConstant.APP_VERSION, appVersion);
 		forPasswordEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
+		Log.d("FORGOT-PASSWORD-JSON",forPasswordEntity.toString());
 		return forPasswordEntity;
 	}
 
@@ -271,7 +278,8 @@ public class OPGRequest {
 	 * @return
 	 */
 	public static String getDeviceLocaleCode(){
-		String[] locale = Locale.getDefault().toString().toLowerCase().split("_");
+		String[] locale = Locale.getDefault().toString().toLowerCase().split(UNDERSCORE_KEY);
 		return ((locale!=null && locale.length>0)?locale[0]:DEFAULT_LAN);
 	}
+
 }

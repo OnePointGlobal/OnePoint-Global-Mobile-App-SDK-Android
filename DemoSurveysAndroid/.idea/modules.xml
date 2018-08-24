@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DemoSurveysAndroid.iml" filepath="$PROJECT_DIR$/DemoSurveysAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/opgsdk_lite_v1.9/opgsdk_lite_v1.9.iml" filepath="$PROJECT_DIR$/opgsdk_lite_v1.9/opgsdk_lite_v1.9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/opgsdk_lite_v2.0/opgsdk_lite_v2.0.iml" filepath="$PROJECT_DIR$/opgsdk_lite_v2.0/opgsdk_lite_v2.0.iml" />
     </modules>
   </component>
 </project>

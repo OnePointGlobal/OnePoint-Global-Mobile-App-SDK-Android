@@ -46,7 +46,7 @@ public interface OPGGeofenceTriggerEvents {
      * @param opgGeofenceList
      */
     @DoNotRename
-    void didExitSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
+   void didExitSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
 
     /**
      * This callback method is triggered when the when the geofence is added and if the device is already inside that geofence for some time.
@@ -54,8 +54,8 @@ public interface OPGGeofenceTriggerEvents {
      * @param regionExited
      * @param opgGeofenceList
      */
-    //@DoNotRename
-    //void didDwellSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
+   // @DoNotRename
+   // void didDwellSurveyRegion(Location regionExited, List<OPGGeofenceSurvey> opgGeofenceList);
 
 
 }

@@ -1,5 +1,7 @@
 package com.onepointglobal.mysurveysn;
 
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -27,8 +29,7 @@ import java.net.URL;
 /**
  * The type Download media activity.
  */
-public class DownloadMediaActivity extends AppCompatActivity
-{
+public class DownloadMediaActivity extends AppCompatActivity {
     /**
      * The Progress dialog.
      */
@@ -49,53 +50,12 @@ public class DownloadMediaActivity extends AppCompatActivity
      * The Uniqued id et.
      */
     EditText uniquedID_et, /**
- * The Media id et.
- */
-mediaID_et, /**
- * The Media type et.
- */
-mediaType_et;
-    /**
-     * The Media id.
+     * The Media id et.
      */
-    String mediaID, /**
- * The Media type.
- */
-mediaType;
-@Override
-protected void onCreate(Bundle savedInstanceState)
-{
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_download_media);
-    mContext          = this;
-    uniquedID_et      = (EditText)findViewById(R.id.uniqueid_et);
-    mediaID_et        = (EditText)findViewById(R.id.mediaid);
-    mediaType_et      = (EditText)findViewById(R.id.mediatype);
-    download_btn      = (Button)findViewById(R.id.download_btn);
-    path_tv           = (TextView)findViewById(R.id.path_tv);
-    progressDialog    = new ProgressDialog(mContext);
-    progressDialog.setIndeterminate(true);
-    progressDialog.setCancelable(true);
-
-    download_btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mediaType = mediaType_et.getText().toString().trim();
-            mediaID   = mediaID_et.getText().toString().trim();
-            if(Util.isOnline(DownloadMediaActivity.this))
-            {
-                new DownloadMedia(mediaID,mediaType).execute();
-            }
-            else
-            {
-                Util.showAlert(DownloadMediaActivity.this);
-            }
-
-        }
-    });
-}
-private class DownloadMedia extends AsyncTask<String ,String ,OPGDownloadMedia>{
-
+    mediaID_et, /**
+     * The Media type et.
+     */
+    mediaType_et;
     /**
      * The Media id.
      */
@@ -103,33 +63,82 @@ private class DownloadMedia extends AsyncTask<String ,String ,OPGDownloadMedia>{
      * The Media type.
      */
     mediaType;
-    /**
-     * The Url.
-     */
-    String url ;
-
-    /**
-     * Instantiates a new Download media.
-     *
-     * @param mediaID   the media id
-     * @param mediaType the media type
-     */
-    public DownloadMedia(String mediaID, String mediaType) {
-        this.mediaID   = mediaID;
-        this.mediaType = mediaType;
-    }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        progressDialog.show();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_download_media);
+        mContext = this;
+        uniquedID_et = (EditText) findViewById(R.id.uniqueid_et);
+        mediaID_et = (EditText) findViewById(R.id.mediaid);
+        mediaType_et = (EditText) findViewById(R.id.mediatype);
+        download_btn = (Button) findViewById(R.id.download_btn);
+        path_tv = (TextView) findViewById(R.id.path_tv);
+        progressDialog = new ProgressDialog(mContext);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
+
+        download_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaType = mediaType_et.getText().toString().trim();
+                mediaID = mediaID_et.getText().toString().trim();
+                if (Util.isOnline(DownloadMediaActivity.this)) {
+                    new DownloadMedia(mediaID, mediaType).execute();
+                } else {
+                    Util.showAlert(DownloadMediaActivity.this);
+                }
+
+            }
+        });
     }
 
+    private class DownloadMedia extends AsyncTask<String, String, OPGDownloadMedia> {
 
-    @Override
-    protected OPGDownloadMedia doInBackground(String... strings) {
-        //Download any media by passing mediaID and media  type
-        return Util.getOPGSDKInstance().downloadMediaFile(DownloadMediaActivity.this,mediaID,mediaType);
+        /**
+         * The Media id.
+         */
+        String mediaID, /**
+         * The Media type.
+         */
+        mediaType;
+        /**
+         * The Url.
+         */
+        String url;
+
+        /**
+         * Instantiates a new Download media.
+         *
+         * @param mediaID   the media id
+         * @param mediaType the media type
+         */
+        public DownloadMedia(String mediaID, String mediaType) {
+            this.mediaID = mediaID;
+            this.mediaType = mediaType;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+
+        @Override
+        protected OPGDownloadMedia doInBackground(String... strings) {
+            //Download any media by passing mediaID and media  type
+            if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return null;
+            }
+            return Util.getOPGSDKInstance().downloadMediaFile(DownloadMediaActivity.this, mediaID, mediaType);
     }
 
     @Override
