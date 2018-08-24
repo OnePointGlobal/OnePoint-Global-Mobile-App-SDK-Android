@@ -1,6 +1,9 @@
 package com.opg.sdk;
 
+import android.Manifest;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresPermission;
 
 import com.allatori.annotations.DoNotRename;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -58,7 +61,7 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public static void initialize(String username, String sharedKey, Context context) throws
+    public static void initialize(@NonNull String username, @NonNull String sharedKey,@NonNull Context context) throws
             OPGException {
         OPGRoot.getInstance().initialize(username, sharedKey, context);
     }
@@ -72,19 +75,23 @@ public class OPGSDK
      * @param context The Context
      * @return OPGDownloadMedia object
      */
+    @RequiresPermission(allOf = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    })
     @DoNotRename
-    public static OPGDownloadMedia downloadMediaFile(Context context, String mediaID, String mediaType)
+    public static OPGDownloadMedia downloadMediaFile(@NonNull Context context, @NonNull String mediaID, @NonNull String mediaType)
     {
         return OPGRoot.getInstance().downloadMediaFile(context, mediaID, mediaType);
     }
 
     @DoNotRename
-    public static List<OPGGeofenceSurvey> getOPGGeofenceSurveys(Context context) {
+    public static List<OPGGeofenceSurvey> getOPGGeofenceSurveys(@NonNull Context context) {
         return OPGRoot.getInstance().getOpgGeofenceSurveyList(context);
     }
 
     @DoNotRename
-    public static void setOPGGeofenceSurveys(Context context, List<OPGGeofenceSurvey> opgGeofenceSurveyList) {
+    public static void setOPGGeofenceSurveys(@NonNull Context context,@NonNull List<OPGGeofenceSurvey> opgGeofenceSurveyList) {
         OPGRoot.getInstance().setOpgGeofenceSurveyList(context, opgGeofenceSurveyList);
     }
 
@@ -99,7 +106,7 @@ public class OPGSDK
      * @throws Exception
      */
     @DoNotRename
-    public OPGAuthenticate authenticate(String userName, String password, Context mContext)
+    public OPGAuthenticate authenticate(@NonNull String userName, @NonNull String password, @NonNull Context mContext)
     {
         OPGPreference.setLoginType(mContext,0);
         return OPGRoot.getInstance().authenticate(userName, password, mContext);
@@ -113,7 +120,7 @@ public class OPGSDK
      * @return
      */
     @DoNotRename
-    public OPGAuthenticate authenticateWithGoogle(String googleTokenID ,Context mContext)
+    public OPGAuthenticate authenticateWithGoogle(@NonNull String googleTokenID ,@NonNull Context mContext)
     {
         OPGPreference.setLoginType(mContext,1);
         return OPGRoot.getInstance().authenticateWithGoogle(googleTokenID,mContext);
@@ -127,7 +134,7 @@ public class OPGSDK
      * @return
      */
     @DoNotRename
-    public OPGAuthenticate authenticateWithFacebook(String facebookTokenID ,Context mContext)
+    public OPGAuthenticate authenticateWithFacebook(@NonNull String facebookTokenID ,@NonNull Context mContext)
     {
         OPGPreference.setLoginType(mContext,2);
         return OPGRoot.getInstance().authenticateWithFacebook(facebookTokenID,mContext);
@@ -141,7 +148,7 @@ public class OPGSDK
      */
 
     @DoNotRename
-    public String getUniqueID(Context context) {
+    public String getUniqueID(@NonNull Context context) {
         return OPGRoot.getInstance().getUniqueID(context);
     }
 
@@ -154,7 +161,7 @@ public class OPGSDK
      */
 
     @DoNotRename
-    public void setUniqueID(String uniqueID, Context context) throws OPGException
+    public void setUniqueID(@NonNull String uniqueID, @NonNull Context context) throws OPGException
     {
         OPGRoot.getInstance().setUniqueID(uniqueID, context);
     }
@@ -167,7 +174,7 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public void setAppVersion(String appVersion, Context context) throws OPGException
+    public void setAppVersion(@NonNull String appVersion,@NonNull Context context) throws OPGException
     {
         OPGRoot.getInstance().setAppVersion(appVersion, context);
     }
@@ -178,7 +185,7 @@ public class OPGSDK
      * @return String appVersion
      */
     @DoNotRename
-    public String getAppVersion(Context context)
+    public String getAppVersion(@NonNull Context context)
     {
         return OPGRoot.getInstance().getAppVersion(context);
     }
@@ -193,7 +200,7 @@ public class OPGSDK
      * @throws Exception
      */
     @DoNotRename
-    public OPGForgotPassword forgotPassword(String mailId, Context mContext) throws Exception
+    public OPGForgotPassword forgotPassword(@NonNull String mailId, @NonNull Context mContext) throws Exception
     {
         return OPGRoot.getInstance().forgotPassword(mailId, mContext);
     }
@@ -207,7 +214,7 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public ArrayList<OPGSurvey> getUserSurveyList(Context context) throws OPGException {
+    public ArrayList<OPGSurvey> getUserSurveyList(@NonNull Context context) throws OPGException {
         return OPGRoot.getInstance().getUserSurveyList(context);
     }
 
@@ -220,7 +227,7 @@ public class OPGSDK
      * @return The list of OPGSurvey Object
      * @throws OPGException
      */
-    public List<OPGSurvey> getSurveys(Context context,String panelID) throws OPGException
+    public List<OPGSurvey> getSurveys(@NonNull Context context,@NonNull String panelID) throws OPGException
     {
         return  OPGRoot.getInstance().getSurveys(context,panelID);
     }
@@ -231,7 +238,7 @@ public class OPGSDK
      * @return
      * @throws OPGException
      */
-    public List<OPGSurvey> getSurveyList(Context context) throws OPGException
+    public List<OPGSurvey> getSurveyList(@NonNull Context context) throws OPGException
     {
         return  OPGRoot.getInstance().getSurveyList(context);
     }
@@ -245,7 +252,7 @@ public class OPGSDK
      * @return OPGChangePassword object
      */
     @DoNotRename
-    public OPGChangePassword changePassword(Context context, String currentPassword, String newPassword) throws Exception {
+    public OPGChangePassword changePassword(@NonNull Context context, @NonNull String currentPassword,@NonNull String newPassword) throws Exception {
         return OPGRoot.getInstance().changePassword(context, currentPassword, newPassword);
     }
 
@@ -255,7 +262,7 @@ public class OPGSDK
      * @return OPGPanellistProfile object
      */
     @DoNotRename
-    public OPGPanellistProfile getPanellistProfile(Context context)
+    public OPGPanellistProfile getPanellistProfile(@NonNull Context context)
     {
         return OPGRoot.getInstance().getPanellistProfile(context);
     }
@@ -270,7 +277,7 @@ public class OPGSDK
      * @return OPGUpdatePanelistProfile object
      */
     @DoNotRename
-    public OPGUpdatePanellistProfile updatePanellistProfile(Context context, OPGPanellistProfile panellistProfile)
+    public OPGUpdatePanellistProfile updatePanellistProfile(@NonNull Context context, @NonNull OPGPanellistProfile panellistProfile)
     {
         return OPGRoot.getInstance().updatePanellistProfile(context, panellistProfile);
     }
@@ -284,8 +291,12 @@ public class OPGSDK
      * @return String the mediaId
      * @throws Exception
      */
+    @RequiresPermission(allOf = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    })
     @DoNotRename
-    public String uploadMediaFile(String mediaPath, Context context) throws Exception
+    public String uploadMediaFile(@NonNull String mediaPath,@NonNull Context context) throws Exception
     {
         return OPGRoot.getInstance().uploadMediaFile(context, mediaPath);
     }
@@ -299,7 +310,7 @@ public class OPGSDK
      */
 
     @DoNotRename
-    public void logout(Context context)
+    public void logout(@NonNull Context context)
     {
         OPGRoot.getInstance().logout(context);
     }
@@ -312,7 +323,7 @@ public class OPGSDK
      * @return String
      */
     @DoNotRename
-    public String registerNotifications(Context context,String deviceToken)
+    public String registerNotifications(@NonNull Context context,@NonNull String deviceToken)
     {
         return   OPGRoot.getInstance().register(context,deviceToken);
     }
@@ -325,7 +336,7 @@ public class OPGSDK
      * @return String
      */
     @DoNotRename
-    public String unRegisterNotifications(Context context,String deviceToken)
+    public String unRegisterNotifications(@NonNull Context context,@NonNull String deviceToken)
     {
         return  OPGRoot.getInstance().unRegister(context,deviceToken);
     }
@@ -336,7 +347,7 @@ public class OPGSDK
      * @return OPGPanellistPanel
      */
     @DoNotRename
-    public OPGPanellistPanel getPanellistPanel(Context context)
+    public OPGPanellistPanel getPanellistPanel(@NonNull Context context)
     {
         return OPGRoot.getInstance().getPanellistPanel(context);
     }
@@ -349,7 +360,7 @@ public class OPGSDK
      */
 
     @DoNotRename
-    public List<OPGCountry> getCountries(Context context) throws OPGException {
+    public List<OPGCountry> getCountries(@NonNull Context context) throws OPGException {
         return OPGRoot.getInstance().getCountries(context);
     }
 
@@ -363,7 +374,7 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public List<OPGGeofenceSurvey> getGeofenceSurveys(Context context, float latitude, float longitude)  throws OPGException
+    public List<OPGGeofenceSurvey> getGeofenceSurveys(@NonNull Context context, float latitude, float longitude)  throws OPGException
     {
         return OPGRoot.getInstance().getGeofenceSurveys(context,latitude,longitude);
     }
@@ -379,8 +390,8 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public void startGeofencingMonitor(Context mContext, GoogleApiClient googleApiClient, List<OPGGeofenceSurvey> opgGeofencesList,
-                                       OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) throws OPGException{
+    public void startGeofencingMonitor(@NonNull Context mContext, @NonNull GoogleApiClient googleApiClient,@NonNull List<OPGGeofenceSurvey> opgGeofencesList,
+                                       @NonNull OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) throws OPGException{
         OPGRoot.getInstance().startGeofencingMonitor(mContext,googleApiClient,opgGeofencesList,opgGeofenceTriggerEvents);
     }
 
@@ -394,8 +405,8 @@ public class OPGSDK
      * @throws OPGException
      */
     @DoNotRename
-    public void stopGeofencingMonitor(Context mContext,GoogleApiClient googleApiClient,
-                                      OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) throws OPGException{
+    public void stopGeofencingMonitor(@NonNull Context mContext,@NonNull GoogleApiClient googleApiClient,
+                                      @NonNull OPGGeofenceTriggerEvents opgGeofenceTriggerEvents) throws OPGException{
         OPGRoot.getInstance().stopGeofencingMonitor(mContext,googleApiClient,opgGeofenceTriggerEvents);
     }
 
@@ -411,7 +422,7 @@ public class OPGSDK
      * @return HashMap  of themeKey and value
      */
     @DoNotRename
-    public HashMap<String,String> getThemesForPanel(Context context, long panelThemeTemplateID, List<OPGTheme> opgThemes)
+    public HashMap<String,String> getThemesForPanel(@NonNull Context context, long panelThemeTemplateID, @NonNull List<OPGTheme> opgThemes)
     {
         return  OPGRoot.getInstance().getThemesForPanel(context,panelThemeTemplateID,opgThemes);
     }

@@ -142,6 +142,13 @@ public class OPGTheme implements Parcelable
         return name;
     }
 
+    /**
+     * @param //isSuccess the isSuccess to set
+     */
+    /*private void setSuccess(boolean isSuccess)
+    {
+        this.isSuccess = isSuccess;
+    }*/
 
     //  private boolean isSuccess = true;
 

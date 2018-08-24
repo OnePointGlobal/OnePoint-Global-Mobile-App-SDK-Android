@@ -2,10 +2,19 @@ package OnePoint.Common;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.os.Environment;
+import android.util.Log;
 
 
 import com.allatori.annotations.DoNotRename;
+import com.opg.sdk.BuildConfig;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +35,7 @@ import static com.opg.sdk.OPGSDKConstant.COLON;
 import static com.opg.sdk.OPGSDKConstant.COMA;
 import static com.opg.sdk.OPGSDKConstant.DATE_FORMAT;
 import static com.opg.sdk.OPGSDKConstant.DATE_FORMAT_T;
+import static com.opg.sdk.OPGSDKConstant.DOT;
 import static com.opg.sdk.OPGSDKConstant.DOT_KEY_KEY;
 import static com.opg.sdk.OPGSDKConstant.EMPTY_STRING;
 import static com.opg.sdk.OPGSDKConstant.FORWARD_SLASH;
@@ -34,12 +44,14 @@ import static com.opg.sdk.OPGSDKConstant.NEW_LINE;
 import static com.opg.sdk.OPGSDKConstant.OPEN_BRACE1_KEY;
 import static com.opg.sdk.OPGSDKConstant.OPEN_BRACE2_KEY;
 import static com.opg.sdk.OPGSDKConstant.OPEN_BRACE3_KEY;
+import static com.opg.sdk.OPGSDKConstant.OPGSDK;
 import static com.opg.sdk.OPGSDKConstant.PIPE_KEY;
 import static com.opg.sdk.OPGSDKConstant.PLUS_KEY;
 import static com.opg.sdk.OPGSDKConstant.QUE_KEY;
 import static com.opg.sdk.OPGSDKConstant.SEMI_COLON;
 import static com.opg.sdk.OPGSDKConstant.SINGLE_QUOTE;
 import static com.opg.sdk.OPGSDKConstant.T;
+import static com.opg.sdk.OPGSDKConstant.TXT;
 import static com.opg.sdk.OPGSDKConstant.UTC;
 
 @DoNotRename
@@ -85,11 +97,11 @@ public class Utils {
     /*public static void writePanellistIdtoDevice(Context context, long panelListId) {
         try {
 
-            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + getApplicationName(context)+ File.separator + "OPGData");
+            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + getApplicationName(context)+ File.separator + OPG_DATA);
             if(directory.exists()) {
                 directory.mkdir();
             }
-            File filesurveyIdtoDevice = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + com.opg.main.Utils.PATH + File.separator + "OPGData" + File.separator + "opgPanelListIdData.txt");
+            File filesurveyIdtoDevice = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Utils.getApplicationName(context) + File.separator + OPG_DATA + File.separator +OPG_PANELLIST_ID_DATA+DOT+TXT );
             filesurveyIdtoDevice.createNewFile();
             FileOutputStream fOut = new FileOutputStream(filesurveyIdtoDevice);
             OutputStreamWriter Osw = new OutputStreamWriter(fOut);
@@ -97,29 +109,31 @@ public class Utils {
             Osw.close();
             fOut.close();
         } catch (Exception e) {
-            Log.i("APP", e.getLocalizedMessage());
+            if(BuildConfig.DEBUG)
+                Log.i(OPGSDK, e.getLocalizedMessage());
         }
     }*/
-/*public static  String readPanelListCachePathFromDevice() {
-    try {
+    /*public static  String readPanelListCachePathFromDevice(Context context) {
+        try {
 
-        File myFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +com.opg.main.Utils.PATH+ File.separator + "OPGData" + File.separator + "opgPanelListIdData.txt");
-        FileInputStream fIn = new FileInputStream(myFile);
-        BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
-        String aDataRow = "";
-        String aBuffer = "";
-        while ((aDataRow = myReader.readLine()) != null) {
-            aBuffer += aDataRow;
+            File myFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +getApplicationName(context)+ File.separator + OPG_DATA + File.separator + OPG_PANELLIST_ID_DATA+DOT+TXT);
+            FileInputStream fIn = new FileInputStream(myFile);
+            BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));
+            String aDataRow = "";
+            String aBuffer = "";
+            while ((aDataRow = myReader.readLine()) != null) {
+                aBuffer += aDataRow;
+            }
+            String data = (aBuffer);
+            myReader.close();
+
+            return data;
+
+        } catch (Exception e) {
+            return null;
         }
-        String data = (aBuffer);
-        myReader.close();
+    }*/
 
-        return data;
-
-    } catch (Exception e) {
-        return null;
-    }
-}*/
     @DoNotRename
     public static String getApplicationName(Context context)
     {

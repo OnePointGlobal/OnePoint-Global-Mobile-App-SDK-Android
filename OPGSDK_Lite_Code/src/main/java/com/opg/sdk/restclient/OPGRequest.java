@@ -1,5 +1,7 @@
 package com.opg.sdk.restclient;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.opg.sdk.OPGSDKConstant;
 import com.opg.sdk.models.OPGPanellistProfile;
@@ -10,6 +12,10 @@ import org.json.JSONObject;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
+
+import static com.opg.sdk.OPGSDKConstant.DEFAULT_LAN;
+import static com.opg.sdk.OPGSDKConstant.UNDERSCORE_KEY;
 
 public class OPGRequest {
 
@@ -91,6 +97,8 @@ public class OPGRequest {
 		JSONObject forPasswordEntity = new JSONObject();
 		forPasswordEntity.put(OPGSDKConstant.EMAIL_ID, emailID);
 		forPasswordEntity.put(OPGSDKConstant.APP_VERSION, appVersion);
+		forPasswordEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
+		Log.d("FORGOT-PASSWORD-JSON",forPasswordEntity.toString());
 		return forPasswordEntity;
 	}
 
@@ -109,6 +117,7 @@ public class OPGRequest {
 		changePwdEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		changePwdEntity.put(OPGSDKConstant.CURRENT_PASSWORD, getMd5Hash(currentPassword));
 		changePwdEntity.put(OPGSDKConstant.NEW_PASSWORD, getMd5Hash(newPassword));
+		changePwdEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
 		return changePwdEntity;
 	}
 
@@ -262,6 +271,15 @@ public class OPGRequest {
 		surveyScriptEntity.put(OPGSDKConstant.VERSION, appVersion);
 		surveyScriptEntity.put(OPGSDKConstant.DEVICE_ID, deviceID);
 		return surveyScriptEntity;
+	}
+
+	/**
+	 * To return the selected language code
+	 * @return
+	 */
+	public static String getDeviceLocaleCode(){
+		String[] locale = Locale.getDefault().toString().toLowerCase().split(UNDERSCORE_KEY);
+		return ((locale!=null && locale.length>0)?locale[0]:DEFAULT_LAN);
 	}
 
 }
