@@ -11,10 +11,8 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.gson.Gson;
 import com.opg.sdk.BuildConfig;
-import com.opg.sdk.OPGPreference;
 import com.opg.sdk.OPGR;
 import com.opg.sdk.OPGSDKConstant;
-import com.opg.sdk.R;
 import com.opg.sdk.models.OPGGeofenceSurvey;
 
 import java.util.ArrayList;
@@ -40,14 +38,13 @@ import static com.opg.sdk.OPGSDKConstant.UNKNOWN_GEOFENCE_TRANSITION_KEY;
 public class OPGGeofenceTransitionsIntentService extends IntentService {
 
     protected static final String TAG = "GeofenceTransitionsIS";
-    private com.opg.sdk.OPGSDK opgsdk;
     @DoNotRename
     public String BROADCAST_GEOFENCE_TRANSITION_ENTER  = ".transition.enter";
     @DoNotRename
     public String BROADCAST_GEOFENCE_TRANSITION_EXIT   = ".transition.exit";
-    @DoNotRename
-    public String BROADCAST_GEOFENCE_TRANSITION_DWELL  = ".transition.dwell";
-
+    private com.opg.sdk.OPGSDK opgsdk;
+   // @DoNotRename
+   // public String BROADCAST_GEOFENCE_TRANSITION_DWELL  = ".transition.dwell";
     private Context context;
 
     public OPGGeofenceTransitionsIntentService() {
@@ -101,6 +98,7 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
                     opgsdk.getOpgGeofenceTriggerEvents().didEnterSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
                 }
                 broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_ENTER);
+
             }
 
             if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
@@ -113,10 +111,10 @@ public class OPGGeofenceTransitionsIntentService extends IntentService {
 
             if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL){
                 if(opgsdk.getOpgGeofenceTriggerEvents() != null) {
-                    //opgsdk.getOpgGeofenceTriggerEvents().didDwellSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
                     opgsdk.getOpgGeofenceTriggerEvents().didEnterSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
+                    //opgsdk.getOpgGeofenceTriggerEvents().didDwellSurveyRegion(geofencingEvent.getTriggeringLocation(), convertGeofenceToOPGObject(context,geofencingEvent.getTriggeringGeofences()));
                 }
-                //broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_DWELL);
+               // broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_DWELL);
                 broadcastIntent.setAction(context.getPackageName()+BROADCAST_GEOFENCE_TRANSITION_ENTER);
             }
 

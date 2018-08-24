@@ -40,7 +40,7 @@ public class OPGSDKConstant
 
 
     /*Key Value pair for String used as argument*/
-    /*OPGNetworkRequest*/
+              /*OPGNetworkRequest*/
     public static final String POST = "POST";
     public static final String MEDIA_PROFILE_MEDIA = "Media/ProfileMedia";
     public static final String DATA = "Data";
@@ -112,6 +112,8 @@ public class OPGSDKConstant
     public static final String USERNAME        = "UserName";
     public static final String PASSWORD        = "Password";
     public static final String APP_VERSION     = "AppVersion";
+    public static final String LANGUAGE        = "Language";
+    public static final String DEFAULT_LAN     = "en";
     public static final String SIGNIN_TIME_UTC = "SigninTimeUtc";
     public static final String EMAIL_ID        = "emailID";
     public static final String GoogleToken     = "GoogleToken";
@@ -344,6 +346,7 @@ public class OPGSDKConstant
     public static String ASTERIC_KEY ="\\*";
     public static String DOT_KEY_KEY ="\\.";
     public static String BACKSLASH_KEY ="\\\\";
+    public static String UNDERSCORE_KEY ="_";
     /***Runtime Permissions *****/
 
     public static String APP_DETAILS_SETTINGS = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;

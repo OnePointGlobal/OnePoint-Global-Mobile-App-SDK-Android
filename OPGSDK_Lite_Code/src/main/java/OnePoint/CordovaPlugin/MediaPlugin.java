@@ -59,9 +59,9 @@ import OnePoint.RestClient.Requests.MediaUploadResponse;*/
 //import OnePoint.Logging.LogManager;
 @DoNotRename
 public class MediaPlugin extends RootPlugin implements ProgressUpdater {
-	//public static final String MEDIA_PREFERENCES = "MediaPrefs";
-	//public static final String MEDIA_FORMAT_KEY = "mediaformat";
-	//public static String MediaFileFormat;
+    //public static final String MEDIA_PREFERENCES = "MediaPrefs";
+    //public static final String MEDIA_FORMAT_KEY = "mediaformat";
+    //public static String MediaFileFormat;
 	//SharedPreferences mediaFilePreferences;
 
 	public static boolean isOfflineMedia = false;
@@ -74,13 +74,13 @@ public class MediaPlugin extends RootPlugin implements ProgressUpdater {
 	private final String ANDROID_AUDIO_FORMATS[] = { "3gp", "mp4", "m4a", "3ga", "3gpp", "aac", "ts", "flac", "mp3",
 			"ogg", "mkv", "mid", "xmf", "mxmf", "rtttl", "rtx", "ota", "imy", "wav" };
 	private final String ANDROID_VIDEO_FORMATS[] = { "3gp", "mp4", "ts", "mkv", "webm", };
-	private final String URI = "uri";
-	private final String OPG_SURVEYS_MEDIA = "/OPG_Surveys_Media/";
-	private final String MEDIAID = "MediaID";
-	private final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd_hh_mm_ss";
-	private final String FAILED = "Failed";
-	private final String PERCENT = "Percent";
-	Context context;
+    private final String URI = "uri";
+    private final String OPG_SURVEYS_MEDIA = "/OPG_Surveys_Media/";
+    private final String MEDIAID = "MediaID";
+    private final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd_hh_mm_ss";
+    private final String FAILED = "Failed";
+    private final String PERCENT = "Percent";
+    Context context;
 	PluginResult pluginResult;
 	// for upload
 	String mediaPath;
@@ -88,8 +88,8 @@ public class MediaPlugin extends RootPlugin implements ProgressUpdater {
 	// for download
 	String mediaType;
 	String meidaID;
-	private CallbackContext callback;
-	private ProgressDialog pDialog;
+    private CallbackContext callback;
+    private ProgressDialog pDialog;
 
 	@Override@DoNotRename
 	public boolean execute(String action, final CordovaArgs args, final CallbackContext callbackContext) {
@@ -253,10 +253,10 @@ public class MediaPlugin extends RootPlugin implements ProgressUpdater {
 		}
 
 		catch (Exception e) {
-			if (BuildConfig.DEBUG) {
-				Log.e(OPGSDK, e.getMessage());
-			}
-			callback.error(e.getLocalizedMessage());
+            if (BuildConfig.DEBUG) {
+                Log.e(OPGSDK, e.getMessage());
+            }
+            callback.error(e.getLocalizedMessage());
 		}
 		return mediaIdCallBack;
 
@@ -293,8 +293,8 @@ public class MediaPlugin extends RootPlugin implements ProgressUpdater {
 		}
 	}
 
-	public void saveImage(String fileName, Bitmap bitmap) {
-		// TODO Auto-generated method stub
+    public void saveImage(String fileName, Bitmap bitmap) {
+        // TODO Auto-generated method stub
 
 	}
 
@@ -435,46 +435,46 @@ public class MediaPlugin extends RootPlugin implements ProgressUpdater {
 		MediaPlayer mediaPlayer = MediaPlayer.create(context, audioFileUri);
 		mediaPlayer.start();
 		callback.success(getReplyJsonString(100));
-	}
+    }
 
-	// ONLINE_UPLOAD
-	class UploadOnlineMediaTask extends AsyncTask<Void, Void, String> {
+    // ONLINE_UPLOAD
+    class UploadOnlineMediaTask extends AsyncTask<Void, Void, String> {
 
-		private Exception exception;
+        private Exception exception;
 
-		@Override
-		protected String doInBackground(Void... arg0) {
+        @Override
+        protected String doInBackground(Void... arg0) {
 
-			String response = null;
-			try {
-				String mediaID = new com.opg.sdk.OPGSDK().uploadMediaFile(mediaPath, context);
-				response = mediaID + COLON + mediaPath;
-			} catch (Exception e) {
-				exception = e;
-			}
-			return response;
-		}
+            String response = null;
+            try {
+                String mediaID = new com.opg.sdk.OPGSDK().uploadMediaFile(mediaPath, context);
+                response = mediaID + COLON + mediaPath;
+            } catch (Exception e) {
+                exception = e;
+            }
+            return response;
+        }
 
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			if (result != null) {
-				String[] response = result.split(COLON);
-				if (response.length == 2) {
-					/*PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, OPEN_CURLY_BRACKET+BACK_SLASH+MEDIAID+BACK_SLASH+COLON *//*"{\"MediaID\":\""*//* + response[0]
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                String[] response = result.split(COLON);
+                if (response.length == 2) {
+                    /*PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, OPEN_CURLY_BRACKET+BACK_SLASH+MEDIAID+BACK_SLASH+COLON *//*"{\"MediaID\":\""*//* + response[0]
 							+  BACK_SLASH+COMA +BACK_SLASH+PATH+COLON+BACK_SLASH *//*"\", \"path\":\""*//* + response[1] + BACK_SLASH+CLOSE_CURLY_BRACKET  *//*"\"}"*//*);*/
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, FileUtils.getJSONMediaPathObj(response[0], response[1]));
-					pluginResult.setKeepCallback(true);
-					callback.sendPluginResult(pluginResult);
-				} else {
-					callback.error(FAILED + BLANK_SPACE + COLON + result);
-				}
+                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, FileUtils.getJSONMediaPathObj(response[0], response[1]));
+                    pluginResult.setKeepCallback(true);
+                    callback.sendPluginResult(pluginResult);
+                } else {
+                    callback.error(FAILED + BLANK_SPACE + COLON + result);
+                }
 
-			} else {
-				if (exception != null) {
-					callback.error(FAILED + BLANK_SPACE + COLON + exception.getMessage());
-				}
-			}
-		}
+            } else {
+                if (exception != null) {
+                    callback.error(FAILED + BLANK_SPACE + COLON + exception.getMessage());
+                }
+            }
+        }
 	}
 }

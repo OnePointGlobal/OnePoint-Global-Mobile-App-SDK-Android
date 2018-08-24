@@ -42,15 +42,15 @@ class OPGGeofenceMonitor {
     private PendingIntent mGeofencePendingIntent;
     private OPGGeofenceTriggerEvents opgGeofenceTriggerEvents;
 
+    private OPGGeofenceMonitor(){
+
+    }
+
     public static OPGGeofenceMonitor getInstance(){
         if(opgGeofenceMonitor == null){
             opgGeofenceMonitor = new OPGGeofenceMonitor();
         }
         return opgGeofenceMonitor;
-    }
-
-    private OPGGeofenceMonitor(){
-
     }
 
     private List<OPGGeofenceSurvey> getOpgGeofenceSurveyList(Context context) {
@@ -177,7 +177,7 @@ class OPGGeofenceMonitor {
                 }
                 else if(entry.getTimeInterval()>0 && entry.isEnter() && !entry.isExit())
                 {
-                   // geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL|Geofence.GEOFENCE_TRANSITION_EXIT).setLoiteringDelay(entry.getTimeInterval()*60*1000);
+                    // geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL|Geofence.GEOFENCE_TRANSITION_EXIT).setLoiteringDelay(entry.getTimeInterval()*60*1000);
                     geofenceBuilder.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT).setLoiteringDelay(entry.getTimeInterval()*60*1000);
                 }
                 else if(entry.getTimeInterval()>0 && !entry.isEnter() && entry.isExit())
@@ -267,7 +267,7 @@ class OPGGeofenceMonitor {
      */
     private GeofencingRequest getGeofencingRequest(List<Geofence> geofenceList) {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER |GeofencingRequest.INITIAL_TRIGGER_DWELL);
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER|GeofencingRequest.INITIAL_TRIGGER_DWELL );
         builder.addGeofences(geofenceList);
         return builder.build();
     }
