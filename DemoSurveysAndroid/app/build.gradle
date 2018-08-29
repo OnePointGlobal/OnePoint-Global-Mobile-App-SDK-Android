@@ -38,6 +38,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.0'
-    implementation project(':opgsdk_lite_v2.0')
+    implementation 'com.opg.sdk:opgsdk_lite:2.0'
+    //implementation project(':opgsdk_lite_v2.0')
 }
 apply plugin: 'com.google.gms.google-services'
