@@ -41,4 +41,5 @@ Social Login seamlessly integrates with your existing social media accounts. Hav
 
 ## License
 
-OnePoint-Global-Mobile-App-SDK-Android is available under the MIT license. See the LICENSE file for more info.
+OnePoint-Global-Mobile-App-SDK-Android is open source and available under the terms provided in the <a href="http://resources.onepointglobal.com/sdk-license/home">OnePoint Global Software License Agreement</a>
+
