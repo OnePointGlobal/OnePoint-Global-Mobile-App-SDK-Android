@@ -42,6 +42,8 @@ public class OPGSDKConstant
     /*Key Value pair for String used as argument*/
               /*OPGNetworkRequest*/
     public static final String POST = "POST";
+    public static final String GET = "GET";
+    public static final String DELETE = "DELETE";
     public static final String MEDIA_PROFILE_MEDIA = "Media/ProfileMedia";
     public static final String DATA = "Data";
     public static final String APPLICATION_JSON_CHARSET = "application/json;charset=utf-8";
@@ -73,6 +75,7 @@ public class OPGSDKConstant
 
     public static final String LINE_END ="\r\n";
     public static final String BOUNDARY = "*****";
+    public static final String QUESTION_MARK = "?";
 
 
     /*OPGParseResult*/

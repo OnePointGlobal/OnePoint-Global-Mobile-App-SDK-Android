@@ -168,7 +168,10 @@ public class Aes256 {
 
        public static byte[] getByteInLittleIndian(String litInd)
        throws UnsupportedEncodingException {
-               return litInd.getBytes(UTF_16LE);
+           if (litInd == null) {
+               litInd="";
+           }
+           return litInd.getBytes(UTF_16LE);
        }
 
        public static byte[] getByteInUTF8(String litInd)

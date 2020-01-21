@@ -7,16 +7,18 @@ package com.opg.sdk.restclient;
  */
 public class OPGHttpUrlRequest {
 
-	String url,data,authKey,contentType,contentLength;
+	String url,data,authKey,contentType,contentLength, sessionID;
+
 
 	public OPGHttpUrlRequest(String url, String data, String authKey,
-			String contentType, String contentLength) {
+			String contentType, String contentLength, String sessionID) {
 		super();
 		this.url = url;
 		this.data = data;
 		this.authKey = authKey;
 		this.contentType = contentType;
 		this.contentLength = contentLength;
+		this.sessionID=sessionID;
 	}
 
 	public String getUrl() {
@@ -58,7 +60,12 @@ public class OPGHttpUrlRequest {
 	public void setContentLength(String contentLength) {
 		this.contentLength = contentLength;
 	}
-	
-	
-	
+
+	public String getSessionID() {
+		return sessionID;
+	}
+
+	public void setSessionID(String sessionID) {
+		this.sessionID = sessionID;
+	}
 }

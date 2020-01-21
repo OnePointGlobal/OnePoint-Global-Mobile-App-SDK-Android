@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.opg.sdk.BuildConfig;
 import com.opg.sdk.OPGPreference;
+import com.opg.sdk.OPGProgressUpdateInterface;
 import com.opg.sdk.OPGSDKConstant;
 import com.opg.sdk.OPGUploadProgress;
 import com.opg.sdk.exceptions.OPGException;
@@ -21,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,325 +35,394 @@ import static com.opg.sdk.OPGSDKConstant.FORWARD_SLASH;
 import static com.opg.sdk.OPGSDKConstant.HYPHEN;
 import static com.opg.sdk.OPGSDKConstant.LINE_END;
 import static com.opg.sdk.OPGSDKConstant.NEW_LINE;
+import static com.opg.sdk.OPGSDKConstant.OPGSDK;
 import static com.opg.sdk.OPGSDKConstant.UTF;
+import static com.opg.sdk.OPGSDKConstant.UTF_8;
 
 public class OPGNetworkRequest {
 
-	private static final int BUFFER_SIZE = 4096;
-	private static final int CONNECT_TIMEOUT = 360000;
-	private static final int READ_TIMEOUT = 360000;
+    private static final int BUFFER_SIZE = 4096;
+    private static final int CONNECT_TIMEOUT = 360000;
+    private static final int READ_TIMEOUT = 360000;
+    /**
+     * Makes an HttpURLConnection request and returns the response
+     *
+     * @param opgRequest
+     * @return
+     * @throws IOException
+     * @throws OPGException
+     * @throws Exception
+     */
+    private static boolean isErrorOccured;
 
-	/**
-	 * Creating an OPGHttpUrlRequest which has the parameters required for making the HttpURLConnection request
-	 * @param reqEntity
-	 * @param apiRoute
-	 * @return
-	 * @throws Exception
-	 */
-	public static OPGHttpUrlRequest createRequestParams(Context mContext,JSONObject reqEntity,String apiRoute) throws Exception {
-		String url = OPGPreference.getApiURL(mContext)+ apiRoute;
-		JSONObject data = new JSONObject();
-		data.put(OPGSDKConstant.DATA, reqEntity.toString());
-		String dataString    = data.toString();
-		String contentLength = String.valueOf(dataString.getBytes().length);
-		String contentType = null;
-		if (apiRoute.equalsIgnoreCase(OPGSDKConstant.MEDIA_PROFILE_MEDIA))
-		{
-			contentType= OPGSDKConstant.APPLICATION_JSON_CHARSET;
-		}
-		else
-		{
-			contentType= OPGSDKConstant.APPLICATION_JSON;
-		}
+    /**
+     * Creating an OPGHttpUrlRequest which has the parameters required for making the HttpURLConnection request
+     *
+     * @param reqEntity
+     * @param apiRoute
+     * @return
+     * @throws Exception
+     */
+    public static OPGHttpUrlRequest createRequestParams(Context mContext, JSONObject reqEntity, String apiRoute, String sessionID) throws Exception {
+        String url = OPGPreference.getApiURL(mContext) + apiRoute;
+        String dataString = null;
+        String contentType = null;
+        String contentLength = null;
 
-		String base64auth = getBase64Auth(mContext);
-		return new OPGHttpUrlRequest(url, dataString, base64auth, contentType, contentLength);
-	}
+        if (reqEntity != null) {
+            JSONObject data = new JSONObject();
+            data.put(OPGSDKConstant.DATA, reqEntity.toString());
+            dataString = data.toString()/*URLEncoder.encode(data.toString(), "UTF-8")*/;
+            contentLength = String.valueOf(dataString.getBytes(UTF_8).length);
 
-	/**
-	 * If this is an mysurveys app we won't get the base 64 string.Else an base64 encode string is returned
-	 * @param mContext
-	 * @return
-	 */
+            if (apiRoute.equalsIgnoreCase(OPGSDKConstant.MEDIA_PROFILE_MEDIA)) {
+                contentType = OPGSDKConstant.APPLICATION_JSON_CHARSET;
+            } else {
+                contentType = OPGSDKConstant.APPLICATION_JSON;
+            }
+        }
+
+
+        String base64auth =  getBase64Auth(mContext);
+        return new OPGHttpUrlRequest(url, dataString, base64auth, contentType, contentLength, sessionID);
+    }
+
+    /**
+     * If this is an mysurveys app we won't get the base 64 string.Else an base64 encode string is returned
+     *
+     * @param mContext
+     * @return
+     */
 	public static  String getBase64Auth(Context mContext)
 	{
-		String authorisation = OPGPreference.getUsername(mContext)+COLON+ OPGPreference.getSharedKey(mContext);
+            String authorisation = OPGPreference.getUsername(mContext) + COLON + OPGPreference.getSharedKey(mContext);
 		return OPGSDKConstant.BASIC+((Base64.encodeToString(authorisation.getBytes(),Base64.DEFAULT)).replace(NEW_LINE, EMPTY_STRING));
 	}
+    /**
+     * Perform request with  POST as a Default requestMethod.
+     */
+    public static String performRequest(OPGHttpUrlRequest opgRequest) throws IOException, OPGException {
+        return performRequest(opgRequest, OPGSDKConstant.POST);
+    }
 
-	public static String performRequest(OPGHttpUrlRequest opgRequest) throws IOException, OPGException {
-		String result = null;
-		String output = null;
-		URL url = new URL(opgRequest.getUrl());
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setConnectTimeout(CONNECT_TIMEOUT);
-		connection.setReadTimeout(READ_TIMEOUT);
-		connection.setDoOutput(true);
-		connection.setDoInput(true);
-		connection.setInstanceFollowRedirects(false);
-		connection.setRequestMethod(OPGSDKConstant.POST);
-		connection.setRequestProperty(OPGSDKConstant.USER_AGENT, OPGSDKConstant.USER_AGENT_NAME);
-		connection.setRequestProperty(OPGSDKConstant.ACCEPT_LANGUAGE, OPGSDKConstant.ACCEPT_LANGUAGE_NAME);
+    /**
+     * Perform request with requestMethod argument.
+     */
+    public static String performRequest(OPGHttpUrlRequest opgRequest, String requestMethod) throws IOException, OPGException {
+        String result = null;
+        String output = null;
+        URL url = new URL(opgRequest.getUrl());
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod(requestMethod);
+        connection.setConnectTimeout(CONNECT_TIMEOUT);
+        connection.setReadTimeout(READ_TIMEOUT);
+        connection.setInstanceFollowRedirects(false);
 
-		if(opgRequest.getAuthKey() != null)
+        connection.setRequestProperty(OPGSDKConstant.USER_AGENT, OPGSDKConstant.USER_AGENT_NAME);
+        connection.setRequestProperty(OPGSDKConstant.ACCEPT_LANGUAGE, OPGSDKConstant.ACCEPT_LANGUAGE_NAME);
+        Log.d("performRequest", "URL: " + opgRequest.getUrl());
+        Log.d("performRequest", "Method: " + requestMethod);
+
+        Log.d("performRequest", "Header:");
+        Log.d("performRequest", OPGSDKConstant.USER_AGENT + ": " + OPGSDKConstant.USER_AGENT_NAME);
+        Log.d("performRequest", OPGSDKConstant.ACCEPT_LANGUAGE + ": " + OPGSDKConstant.ACCEPT_LANGUAGE_NAME);
+
+
+        if (opgRequest.getAuthKey() != null && !opgRequest.getAuthKey().isEmpty()) {
+            connection.setRequestProperty(OPGSDKConstant.AUTHORIZATION, opgRequest.getAuthKey());
+            Log.d("performRequest", OPGSDKConstant.AUTHORIZATION + ": " + opgRequest.getAuthKey());
+        }
+        if (opgRequest.sessionID != null && !opgRequest.sessionID.isEmpty()) {
+            connection.setRequestProperty(OPGSDKConstant.SESSIONID, opgRequest.sessionID);
+            Log.d("performRequest", OPGSDKConstant.SESSIONID + ": " + opgRequest.sessionID);
+        }
+
+
+        if (!requestMethod.equals(OPGSDKConstant.GET)) {
+            connection.setDoOutput(true);
+            connection.setRequestProperty(OPGSDKConstant.CONTENT_TYPE, opgRequest.getContentType());
+            Log.d("performRequest", OPGSDKConstant.CONTENT_TYPE + ": " + opgRequest.getContentType());
+            connection.setRequestProperty(OPGSDKConstant.CONTENT_LENGTH, opgRequest.getContentLength());
+            Log.d("performRequest", OPGSDKConstant.CONTENT_LENGTH + ": " + opgRequest.getContentLength());
+            connection.setUseCaches(false);
+
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            //wr.writeBytes(opgRequest.getData());
+            wr.write(opgRequest.getData().getBytes(UTF));
+            wr.flush();
+            wr.close();
+            Log.d("performRequest", "Body");
+            Log.d("performRequest", opgRequest.getData());
+        }
+
+        int responseCode = connection.getResponseCode();
+
+        if (responseCode >= HttpURLConnection.HTTP_OK && responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+            InputStream instream = connection.getInputStream();
+            result = convertStreamToString(instream);
+            output = result;
+
+            instream.close();
+        } else if (responseCode >= HttpURLConnection.HTTP_BAD_REQUEST) {
+            InputStream instream = connection.getErrorStream();
+            result = convertStreamToString(instream);
+            output = result;
+
+            instream.close();
+
+        }
+		/*else if(responseCode == 401)
 		{
-			connection.setRequestProperty(OPGSDKConstant.AUTHORIZATION, opgRequest.getAuthKey());
-		}
-		connection.setRequestProperty(OPGSDKConstant.CONTENT_TYPE, opgRequest.getContentType());
-		connection.setRequestProperty(OPGSDKConstant.CONTENT_LENGTH, opgRequest.getContentLength());
-		connection.setUseCaches (false);
-
-		DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
-		//wr.writeBytes(opgRequest.getData());
-		wr.write(opgRequest.getData().getBytes(UTF));
-		wr.flush();
-		wr.close();
-
-		int responseCode = connection.getResponseCode();
-		/*if (responseCode != HttpURLConnection.HTTP_OK) {
-			throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode());
+			output = OPGSDKConstant.UNIQUE_ID_ERROR;
+		}else if(responseCode >= 400 && responseCode <500 ){
+			throw new OPGException("Caused by: Client error");
+		}else if(responseCode >= 500 && responseCode <600 ){
+			throw new OPGException("Caused by: Server error");
 		}*/
-		;
-		if (responseCode >= HttpURLConnection.HTTP_OK && responseCode<HttpURLConnection.HTTP_BAD_REQUEST) {
-			InputStream instream = connection.getInputStream();
-			result = convertStreamToString(instream);
-			output = result;
-			instream.close();
-		}
-		else if(responseCode >= HttpURLConnection.HTTP_BAD_REQUEST)
-		{
-			InputStream instream = connection.getErrorStream();
-			result = convertStreamToString(instream);
-			output = result;
-			instream.close();
+        else {
+            throw new OPGException(OPGSDKConstant.UNKNOWN_EXCEPTION);
+        }
+        //System.out.println("Output:"+output);
+        connection.disconnect();
+        Log.d("performRequest", "Response");
+        Log.d("performRequest", output);
+        Log.d("performRequest", "-----");
 
-		}
-		else{
-			throw new OPGException(OPGSDKConstant.UNKNOWN_EXCEPTION);
-		}
-		connection.disconnect();
-		return output;
-	}
-
-	public static String uploadMediaRequest(Context mContext ,String apiRoute ,String AUTH_KEY ,String selectedFilePath,OPGUploadProgress uploadProgress,long folderSize) throws Exception {
-		String output = null;
-		String SERVER_URL = OPGPreference.getApiURL(mContext)+ apiRoute;
-		HttpURLConnection connection = null;
-		FileInputStream fileInputStream = null;
-		DataOutputStream dataOutputStream = null;
-		String lineEnd = LINE_END;
-		String twoHyphens = HYPHEN+HYPHEN;
-		String boundary = BOUNDARY;
+        return output;
+    }
 
 
-		int bytesRead, bytesAvailable, bufferSize;
-		byte[] buffer;
-		int maxBufferSize = 1 * 1024 * 1024;
-		File selectedFile = new File(selectedFilePath);
-		selectedFilePath  = selectedFile.getAbsolutePath();
-		long totalSize = folderSize;//(int)selectedFile.length();
-		if(totalSize == 0)
-		{
-			totalSize = selectedFile.length();
-		}
+
+    /*private static int progress = 0;*/
+    public static String uploadMediaRequest(OPGHttpUrlRequest opgRequest, String selectedFilePath, OPGUploadProgress uploadProgress, long folderSize) throws Exception {
+        String output = null;
+        String SERVER_URL = opgRequest.getUrl();
+        HttpURLConnection connection = null;
+        FileInputStream fileInputStream = null;
+        DataOutputStream dataOutputStream = null;
+        String lineEnd = LINE_END;
+        String twoHyphens = HYPHEN + HYPHEN;
+        String boundary = BOUNDARY;
 
 
-		String[] parts = selectedFilePath.split(FORWARD_SLASH);
-		final String fileName = parts[parts.length - 1];
-		try {
-			fileInputStream = new FileInputStream(selectedFile);
-			URL url = new URL(SERVER_URL);
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setConnectTimeout(CONNECT_TIMEOUT);
-			connection.setReadTimeout(READ_TIMEOUT);
-			connection.setDoInput(true);//Allow Inputs
-			connection.setDoOutput(true);//Allow Outputs
-			connection.setUseCaches(false);//Don't use a cached Copy
-			connection.setChunkedStreamingMode(1024);
-			connection.setRequestMethod(OPGSDKConstant.POST);
-			connection.setRequestProperty(OPGSDKConstant.CONNECTION, OPGSDKConstant.CONNECTION_TYPE);
-			connection.setRequestProperty(OPGSDKConstant.ENCTYPE, OPGSDKConstant.ENCTYPE_NAME);
-			connection.setRequestProperty(OPGSDKConstant.CONTENT_TYPE, OPGSDKConstant.CONTENT_TYPE_FOR_FILE_UPLOAD + boundary);
-			connection.setRequestProperty(OPGSDKConstant.FILE, selectedFilePath);
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        File selectedFile = new File(selectedFilePath);
+        selectedFilePath = selectedFile.getAbsolutePath();
+        long totalSize = folderSize;//(int)selectedFile.length();
+        if (totalSize == 0) {
+            totalSize = selectedFile.length();
+        }
 
-			if(AUTH_KEY != null)
-			{
-				connection.setRequestProperty(OPGSDKConstant.AUTHORIZATION,AUTH_KEY);
-			}
 
-			//creating new dataoutputstream
-			dataOutputStream = new DataOutputStream(connection.getOutputStream());
+        String[] parts = selectedFilePath.split(FORWARD_SLASH);
+        final String fileName = parts[parts.length - 1];
+        try {
+            fileInputStream = new FileInputStream(selectedFile);
+            URL url = new URL(SERVER_URL);
+            connection = (HttpURLConnection) url.openConnection();
+            Log.d("performRequest", "URL: " + opgRequest.getUrl());
+            connection.setConnectTimeout(CONNECT_TIMEOUT);
+            connection.setReadTimeout(READ_TIMEOUT);
+            connection.setDoInput(true);//Allow Inputs
+            connection.setDoOutput(true);//Allow Outputs
+            connection.setUseCaches(false);//Don't use a cached Copy
+            connection.setChunkedStreamingMode(1024);
+            connection.setRequestMethod(OPGSDKConstant.POST);
+            Log.d("performRequest", "Method: " + OPGSDKConstant.POST);
 
-			//writing bytes to data outputstream
-			dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
-			dataOutputStream.writeBytes(OPGSDKConstant.CONTENT_DISPOSITION+ fileName + BACK_SLASH + lineEnd);
+            Log.d("performRequest", "Header:");
+            connection.setRequestProperty(OPGSDKConstant.CONNECTION, OPGSDKConstant.CONNECTION_TYPE);
+            connection.setRequestProperty(OPGSDKConstant.ENCTYPE, OPGSDKConstant.ENCTYPE_NAME);
+            connection.setRequestProperty(OPGSDKConstant.CONTENT_TYPE, OPGSDKConstant.CONTENT_TYPE_FOR_FILE_UPLOAD + boundary);
+            connection.setRequestProperty(OPGSDKConstant.FILE, selectedFilePath);
+            Log.d("performRequest", OPGSDKConstant.CONNECTION + ": " + OPGSDKConstant.CONNECTION_TYPE);
+            Log.d("performRequest", OPGSDKConstant.ENCTYPE + ": " + OPGSDKConstant.ENCTYPE_NAME);
+            Log.d("performRequest", OPGSDKConstant.CONTENT_TYPE + ": " + OPGSDKConstant.CONTENT_TYPE_FOR_FILE_UPLOAD + boundary);
+            Log.d("performRequest", OPGSDKConstant.FILE + ": " + selectedFilePath);
 
-			dataOutputStream.writeBytes(lineEnd);
 
-			//returns no. of bytes present in fileInputStream
-			bytesAvailable = fileInputStream.available();
+            if (opgRequest.getAuthKey() != null && !opgRequest.authKey.isEmpty()) {
+                connection.setRequestProperty(OPGSDKConstant.AUTHORIZATION, opgRequest.getAuthKey());
+                Log.d("performRequest", OPGSDKConstant.AUTHORIZATION + ": " + opgRequest.getAuthKey());
+            }
+            if (opgRequest.sessionID != null && !opgRequest.sessionID.isEmpty()) {
+                connection.setRequestProperty(OPGSDKConstant.SESSIONID, opgRequest.sessionID);
+                Log.d("performRequest", OPGSDKConstant.SESSIONID + ": " + opgRequest.sessionID);
 
-			//selecting the buffer size as minimum of available bytes or 1 MB
-			bufferSize =  Math.min(bytesAvailable, maxBufferSize);
-			//setting the buffer as byte array of size of bufferSize
-			buffer = new byte[bufferSize];
+            }
 
-			//reads bytes from FileInputStream(from 0th index of buffer to buffersize)
-			bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            //creating new dataoutputstream
+            dataOutputStream = new DataOutputStream(connection.getOutputStream());
 
-			//loop repeats till bytesRead = -1, i.e., no bytes are left to read
-			while (bytesRead > 0){
-				//write the bytes read from inputstream
-				dataOutputStream.write(buffer,0,bufferSize);
-				bytesAvailable = fileInputStream.available();
-				bufferSize = Math.min(bytesAvailable,maxBufferSize);
-				bytesRead = fileInputStream.read(buffer,0,bufferSize);
-			}
+            //writing bytes to data outputstream
+            dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+            dataOutputStream.writeBytes(OPGSDKConstant.CONTENT_DISPOSITION + fileName + BACK_SLASH + lineEnd);
 
-			dataOutputStream.writeBytes(lineEnd);
-			dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            dataOutputStream.writeBytes(lineEnd);
 
-			int responseCode = connection.getResponseCode();
+            //returns no. of bytes present in fileInputStream
+            bytesAvailable = fileInputStream.available();
 
-			if (responseCode >= HttpURLConnection.HTTP_OK && responseCode<HttpURLConnection.HTTP_BAD_REQUEST) {
-				InputStream instream = connection.getInputStream();
-				output = convertStreamToString(instream);
-				instream.close();
-			}
-			else if(responseCode >= HttpURLConnection.HTTP_BAD_REQUEST)
-			{
-				InputStream instream = connection.getErrorStream();
-				output = convertStreamToString(instream);
-				instream.close();
+            //selecting the buffer size as minimum of available bytes or 1 MB
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            //setting the buffer as byte array of size of bufferSize
+            buffer = new byte[bufferSize];
 
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw e;
+            //reads bytes from FileInputStream(from 0th index of buffer to buffersize)
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw e;
+            //loop repeats till bytesRead = -1, i.e., no bytes are left to read
+            while (bytesRead > 0) {
+                //write the bytes read from inputstream
+                dataOutputStream.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw e;
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}finally {
-			if(connection!=null){
-				connection.disconnect();
-			}
-			//closing the input and output streams
-			if(fileInputStream!=null) {
-				fileInputStream.close();
-			}
-			if(dataOutputStream!=null) {
-				dataOutputStream.flush();
-				dataOutputStream.close();
-			}
-		}
-		return output;
-	}
+            dataOutputStream.writeBytes(lineEnd);
+            dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            Log.d("performRequest", "Body");
+            int responseCode = connection.getResponseCode();
 
-	/**
-	 * Download the file
-	 * @param mContext
-	 * @param mediaID
-	 * @param mediaType
-	 * @param fileName
-	 * @param filePath
-	 * @return
-	 * @throws Exception
-	 */
+            if (responseCode >= HttpURLConnection.HTTP_OK && responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream instream = connection.getInputStream();
+                output = convertStreamToString(instream);
+                instream.close();
+            } else if (responseCode >= HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream instream = connection.getErrorStream();
+                output = convertStreamToString(instream);
+                instream.close();
 
-	public static boolean downloadMediaRequest(Context mContext ,String mediaID,String mediaType ,String fileName,String filePath) throws Exception
-	{
-		boolean status= false;
-		String fileURL = OPGPreference.getDownloadURL(mContext)+OPGSDKConstant.MEDIA_ID+mediaID+OPGSDKConstant.MEDIA_TYPE+mediaType;
-		URL url        = new URL(fileURL);
-		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-		httpConn.setConnectTimeout(CONNECT_TIMEOUT);
-		httpConn.setReadTimeout(READ_TIMEOUT);
-		int responseCode = httpConn.getResponseCode();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
 
-		// always check HTTP response code first
-		if (responseCode == HttpURLConnection.HTTP_OK)
-		{
-			String disposition = httpConn.getHeaderField(OPGSDKConstant.CONTENT_DISPOSITION);
-			String contentType = httpConn.getContentType();
-			int contentLength  = httpConn.getContentLength();
-			// opens input stream from the HTTP connection
-			InputStream inputStream = httpConn.getInputStream();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw e;
 
-			if(contentType.contains(OPGSDKConstant.IMAGE) || contentType.contains(OPGSDKConstant.VIDEO) || contentType.contains(OPGSDKConstant.AUDIO))
-			{
-				if(inputStream!=null ){
-					File pathFile = new File(filePath);
-					if(!pathFile.exists()){
-						pathFile.mkdirs();
-					}
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            //closing the input and output streams
+            if (fileInputStream != null) {
+                fileInputStream.close();
+            }
+            if (dataOutputStream != null) {
+                dataOutputStream.flush();
+                dataOutputStream.close();
+            }
+        }
+        Log.d("performRequest", "Response");
+        Log.d("performRequest", output);
+        Log.d("performRequest", "-----");
+        return output;
+    }
 
-					String saveFilePath = pathFile.getAbsolutePath() + File.separator + fileName;
+    /**
+     * Download the file
+     *
+     * @param mContext
+     * @param mediaID
+     * @param mediaType
+     * @param fileName
+     * @param filePath
+     * @return
+     * @throws Exception
+     */
 
-					// opens an output stream to save into file
-					FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+    public static boolean downloadMediaRequest(Context mContext, String mediaID, String mediaType, String fileName, String filePath) throws Exception {
+        boolean status = false;
+        String fileURL = OPGPreference.getDownloadURL(mContext) + OPGSDKConstant.MEDIA_ID + mediaID + OPGSDKConstant.MEDIA_TYPE + mediaType;
+        URL url = new URL(fileURL);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        httpConn.setConnectTimeout(CONNECT_TIMEOUT);
+        httpConn.setReadTimeout(READ_TIMEOUT);
+        int responseCode = httpConn.getResponseCode();
 
-					int bytesRead = -1;
-					byte[] buffer = new byte[BUFFER_SIZE];
-					while ((bytesRead = inputStream.read(buffer)) != -1) {
-						outputStream.write(buffer, 0, bytesRead);
-					}
+        // always check HTTP response code first
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            String disposition = httpConn.getHeaderField(OPGSDKConstant.CONTENT_DISPOSITION);
+            String contentType = httpConn.getContentType();
+            int contentLength = httpConn.getContentLength();
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
 
-					outputStream.close();
-					inputStream.close();
-					status = true;
-				}
-			}
-			else
-			{
-				status = false;
-				String str = convertStreamToString(inputStream);
-				if (BuildConfig.DEBUG) {
-					Log.i(EMPTY_STRING, str);
-				}
-			}
-		} else {
-			status = false;
-		}
-		httpConn.disconnect();
-		return status;
-	}
+            if (contentType.contains(OPGSDKConstant.IMAGE) || contentType.contains(OPGSDKConstant.VIDEO) || contentType.contains(OPGSDKConstant.AUDIO)) {
+                if (inputStream != null ) {
+                    File pathFile = new File(filePath);
+                    if (!pathFile.exists()) {
+                        pathFile.mkdirs();
+                    }
 
-	/**
-	 * Converting the inputstream to string
-	 * @param is
-	 * @return
-	 */
-	private static String convertStreamToString(InputStream is) {
+                    String saveFilePath = pathFile.getAbsolutePath() + File.separator + fileName;
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
+                    // opens an output stream to save into file
+                    FileOutputStream outputStream = new FileOutputStream(saveFilePath);
 
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + NEW_LINE);
-			}
-			return sb.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+                    int bytesRead = -1;
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
 
-		return null;
-	}
+                    outputStream.close();
+                    inputStream.close();
+                    status = true;
+                }
+            } else {
+                status = false;
+                String str = convertStreamToString(inputStream);
+                if (BuildConfig.DEBUG) {
+                    Log.i(EMPTY_STRING, str);
+                }
+            }
+        } else {
+            status = false;
+        }
+        httpConn.disconnect();
+        return status;
+    }
+
+    /**
+     * Converting the inputstream to string
+     * @param is
+     * @return
+     */
+    private static String convertStreamToString(InputStream is) {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + NEW_LINE);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
 
 
 }

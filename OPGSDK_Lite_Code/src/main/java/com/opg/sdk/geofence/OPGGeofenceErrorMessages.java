@@ -17,16 +17,13 @@
 package com.opg.sdk.geofence;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.opg.sdk.OPGR;
-import com.opg.sdk.R;
 
 import static com.opg.sdk.OPGSDKConstant.GEOFENCE_NOT_AVAILABLE_KEY;
 import static com.opg.sdk.OPGSDKConstant.GEOFENCE_TOO_MANY_GEOFENCES_KEY;
 import static com.opg.sdk.OPGSDKConstant.GEOFENCE_TOO_MANY_PENDING_INTENTS_KEY;
-import static com.opg.sdk.OPGSDKConstant.MSG_SDK_LITE_KEY;
 import static com.opg.sdk.OPGSDKConstant.STRING;
 import static com.opg.sdk.OPGSDKConstant.UNKNOWN_GEOFENCE_ERROR_KEY;
 

@@ -1,7 +1,5 @@
 package com.opg.sdk.restclient;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.opg.sdk.OPGSDKConstant;
 import com.opg.sdk.models.OPGPanellistProfile;
@@ -13,6 +11,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.opg.sdk.OPGSDKConstant.DEFAULT_LAN;
 import static com.opg.sdk.OPGSDKConstant.UNDERSCORE_KEY;
@@ -98,7 +97,6 @@ public class OPGRequest {
 		forPasswordEntity.put(OPGSDKConstant.EMAIL_ID, emailID);
 		forPasswordEntity.put(OPGSDKConstant.APP_VERSION, appVersion);
 		forPasswordEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
-		Log.d("FORGOT-PASSWORD-JSON",forPasswordEntity.toString());
 		return forPasswordEntity;
 	}
 
@@ -114,38 +112,13 @@ public class OPGRequest {
 	public static JSONObject getChangePasswordEntity(String uniqueID, String currentPassword, String newPassword) throws JSONException
 	{
 		JSONObject changePwdEntity = new JSONObject();
-		changePwdEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		changePwdEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		changePwdEntity.put(OPGSDKConstant.CURRENT_PASSWORD, getMd5Hash(currentPassword));
 		changePwdEntity.put(OPGSDKConstant.NEW_PASSWORD, getMd5Hash(newPassword));
 		changePwdEntity.put(OPGSDKConstant.LANGUAGE,getDeviceLocaleCode());
 		return changePwdEntity;
 	}
 
-	/**
-	 *
-	 * @param uniqueID
-	 * @return
-	 * @throws JSONException
-     */
-	public static JSONObject getSurveyListEntity(String uniqueID) throws JSONException
-	{
-		JSONObject getSurveyEntity = new JSONObject();
-		getSurveyEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
-		return getSurveyEntity;
-	}
-
-	/**
-	 *
-	 * @param uniqueID
-	 * @return
-	 * @throws JSONException
-     */
-	public static JSONObject getCountryListEntity(String uniqueID) throws JSONException
-	{
-		JSONObject getSurveyEntity = new JSONObject();
-		getSurveyEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
-		return getSurveyEntity;
-	}
 
 	/**
 	 *
@@ -157,7 +130,7 @@ public class OPGRequest {
 	public static JSONObject getSurveyListEntityForPanelID(String uniqueID,String panelID) throws JSONException
 	{
 		JSONObject getSurveyEntity = new JSONObject();
-		getSurveyEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		getSurveyEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		getSurveyEntity.put(OPGSDKConstant.PANEL_ID,panelID);
 		return getSurveyEntity;
 
@@ -175,37 +148,22 @@ public class OPGRequest {
 	public static JSONObject getGeofenceSurveyListEntity(String uniqueID,float latitude ,float longitude ) throws JSONException
 	{
 		JSONObject getGeofenceSurveysEntity = new JSONObject();
-		getGeofenceSurveysEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		getGeofenceSurveysEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		getGeofenceSurveysEntity.put(OPGSDKConstant.LATITUDE,latitude);
 		getGeofenceSurveysEntity.put(OPGSDKConstant.LONGITUDE,longitude);
 		return getGeofenceSurveysEntity;
 	}
-
-	/**
-	 *
-	 * @param uniqueID
-	 * @return
-	 * @throws JSONException
-     */
-	public static JSONObject getPanelistProfileEntity(String uniqueID) throws JSONException
-	{
-		JSONObject panellistProfileEntity = new JSONObject();
-		panellistProfileEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
-		return panellistProfileEntity;
+	
+	public static String getQueryStringUrl(String url,Map<String, Object> queryString){
+		url+=OPGSDKConstant.QUESTION_MARK;
+		for (Map.Entry<String, Object> entry: queryString.entrySet()) {
+			url+=entry.getKey()+OPGSDKConstant.EQUAL+entry.getValue()+OPGSDKConstant.AND;
+		}
+		url=url.substring(0,url.length()-1);
+		return url;
 	}
 
-	/**
-	 *
-	 * @param uniqueID
-	 * @return
-	 * @throws JSONException
-     */
-	public static JSONObject getPanellistPanelEntity(String uniqueID) throws JSONException
-	{
-		JSONObject panellistPanelEntity = new JSONObject();
-		panellistPanelEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
-		return panellistPanelEntity;
-	}
+
 
 	/**
 	 *
@@ -216,7 +174,7 @@ public class OPGRequest {
 	public static JSONObject getPanelPanelistEntity(String uniqueID) throws JSONException
 	{
 		JSONObject panelPanelistEntity = new JSONObject();
-		panelPanelistEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		panelPanelistEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		return panelPanelistEntity;
 	}
 
@@ -232,7 +190,7 @@ public class OPGRequest {
 		Gson gson = new Gson();
 		String jsonResponse = gson.toJson(profile);
 		JSONObject updateProfile = new JSONObject(jsonResponse);
-		updateProfile.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		updateProfile.put(OPGSDKConstant.SESSIONID, uniqueID);
 		updateProfile.put(OPGSDKConstant.COUNTRY_CODE,profile.getStd());//we are mapping the std vale to countrycode.
 		return updateProfile;
 	}
@@ -247,7 +205,7 @@ public class OPGRequest {
 	public static JSONObject getSurveyScriptEntity(String uniqueID,String surveyID) throws JSONException
 	{
 		JSONObject surveyScriptEntity = new JSONObject();
-		surveyScriptEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		surveyScriptEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		surveyScriptEntity.put(OPGSDKConstant.SURVEY_REF, surveyID);
 		return surveyScriptEntity;
 	}
@@ -265,13 +223,14 @@ public class OPGRequest {
 	public static JSONObject getNotificationEntity(String uniqueID,String deviceToken,String appVersion,String deviceID) throws JSONException
 	{
 		JSONObject surveyScriptEntity = new JSONObject();
-		surveyScriptEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
+//		surveyScriptEntity.put(OPGSDKConstant.SESSIONID, uniqueID);
 		surveyScriptEntity.put(OPGSDKConstant.DEVICE_TOKEN_ID,deviceToken);
 		surveyScriptEntity.put(OPGSDKConstant.PLATFORM, OPGSDKConstant.TWO); //(ex: for IOS =1 , android = 2).
 		surveyScriptEntity.put(OPGSDKConstant.VERSION, appVersion);
 		surveyScriptEntity.put(OPGSDKConstant.DEVICE_ID, deviceID);
 		return surveyScriptEntity;
 	}
+
 
 	/**
 	 * To return the selected language code
